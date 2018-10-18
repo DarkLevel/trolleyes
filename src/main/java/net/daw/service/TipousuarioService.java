@@ -66,5 +66,24 @@ public class TipousuarioService {
 		}
 		return oReplyBean;
 	}
+        
+        public ReplyBean count() throws Exception {
+		ReplyBean oReplyBean;
+		ConnectionInterface oConnectionPool = null;
+		Connection oConnection ;
+		try {
+			oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+			oConnection = oConnectionPool.newConnection();
+			TipousuarioDao oTipousuarioDao = new TipousuarioDao(oConnection);
+			int numeroTipoUsuarios = oTipousuarioDao.count();
+			Gson oGson = new Gson();
+			oReplyBean = new ReplyBean(200, oGson.toJson(numeroTipoUsuarios));
+		} catch (Exception ex) {
+			oReplyBean = new ReplyBean(500, "Bad Connection: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+		} finally {
+			oConnectionPool.disposeConnection();
+		}
+		return oReplyBean;
+	}
 
 }

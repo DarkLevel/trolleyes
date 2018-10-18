@@ -53,7 +53,7 @@ public class TipousuarioDao {
         public boolean remove(int id) throws Exception {
 		String strSQL = "DELETE FROM " + ob + " WHERE id=?";
                 boolean estado = false;
-		PreparedStatement oPreparedStatement =null;
+		PreparedStatement oPreparedStatement = null;
 		try {
 			oPreparedStatement = oConnection.prepareStatement(strSQL);
 			oPreparedStatement.setInt(1, id);
@@ -67,6 +67,33 @@ public class TipousuarioDao {
 			}
 		}
 		return estado;
+	}
+        
+        public int count() throws Exception {
+		String strSQL = "SELECT COUNT(DISTINCT(id)) FROM " + ob;
+                int numeroTipoUsuarios;
+                ResultSet oResultSet = null;
+		PreparedStatement oPreparedStatement = null;
+		try {
+			oPreparedStatement = oConnection.prepareStatement(strSQL);
+			oPreparedStatement.execute();
+                        oResultSet = oPreparedStatement.executeQuery();
+                        if (oResultSet.next()) {
+				numeroTipoUsuarios = oResultSet.getInt(1);
+			} else {
+				numeroTipoUsuarios = 0;
+			}
+		} catch (SQLException e) {
+			throw new Exception ("Error en Dao count de tipousuario",e);
+		} finally {
+			if (oResultSet!=null) {
+				oResultSet.close();
+			}
+			if (oPreparedStatement!=null) {
+				oPreparedStatement.close();
+			}
+		}
+		return numeroTipoUsuarios;
 	}
 
 }

@@ -77,6 +77,19 @@ public class json extends HttpServlet {
 							e.printStackTrace();
 						}
 					}
+                                        if (strOp.equalsIgnoreCase("count")) {
+
+						TipousuarioService oService = new TipousuarioService(request);
+						try {
+							ReplyBean oReplyBean = oService.count();
+							strJson = "{\"status\":" + oReplyBean.getStatus() + ",\"message\":\"" + oReplyBean.getJson()
+									+ "\"}";
+							
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				}
 				if (strOb.equalsIgnoreCase("usuario")) {
 					if (strOp.equalsIgnoreCase("connect")) {
