@@ -1,8 +1,8 @@
 package net.daw.bean;
 
 public class UsuarioBean {
-    
-    private int id;
+
+    private int id, id_tipousuario;
     private String dni, nombre, ape1, ape2, login, pass;
 
     public int getId() {
@@ -60,5 +60,14 @@ public class UsuarioBean {
     public void setPass(String pass) {
         this.pass = pass;
     }
+
+    public int getId_tipousuario() {
+        return id_tipousuario;
+    }
+
+    public void setId_tipousuario(int id_tipousuario) {
+        this.id_tipousuario = id_tipousuario;
+    }
     
+
 }

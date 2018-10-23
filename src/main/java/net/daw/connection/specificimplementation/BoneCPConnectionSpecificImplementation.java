@@ -10,39 +10,40 @@ import net.daw.connection.publicinterface.ConnectionInterface;
 import net.daw.constant.ConnectionConstants;
 
 public class BoneCPConnectionSpecificImplementation implements ConnectionInterface {
-	private Connection oConnection;
-	private BoneCP oConnectionPool;
 
-	public Connection newConnection() throws Exception {
+    private Connection oConnection;
+    private BoneCP oConnectionPool;
 
-		BoneCPConfig config = new BoneCPConfig();
-		
-		config.setJdbcUrl(ConnectionConstants.getConnectionChain()); // jdbc url specific to your database, eg jdbc:mysql://127.0.0.1/yourdb
+    public Connection newConnection() throws Exception {
 
-		config.setUsername(ConnectionConstants.databaseLogin);
-		config.setPassword(ConnectionConstants.databasePassword);
-		config.setMinConnectionsPerPartition(ConnectionConstants.getDatabaseMinPoolSize);
-		config.setMaxConnectionsPerPartition(ConnectionConstants.getDatabaseMaxPoolSize);
-		config.setPartitionCount(1);
-	
-		try {
-			oConnectionPool = new BoneCP(config);
-			oConnection = (Connection) oConnectionPool.getConnection();
-			return oConnection;
+        BoneCPConfig config = new BoneCPConfig();
 
-		} catch (SQLException ex) {
-			String msgError = this.getClass().getName() + ":" + (ex.getStackTrace()[1]).getMethodName();
-			throw new Exception(msgError, ex);
-		}
+        config.setJdbcUrl(ConnectionConstants.getConnectionChain()); // jdbc url specific to your database, eg jdbc:mysql://127.0.0.1/yourdb
 
-	}
+        config.setUsername(ConnectionConstants.databaseLogin);
+        config.setPassword(ConnectionConstants.databasePassword);
+        config.setMinConnectionsPerPartition(ConnectionConstants.getDatabaseMinPoolSize);
+        config.setMaxConnectionsPerPartition(ConnectionConstants.getDatabaseMaxPoolSize);
+        config.setPartitionCount(1);
 
-	public void disposeConnection() throws Exception {
-		if (oConnection != null) {
-			oConnection.close();
-		}
-		if (oConnectionPool != null) {
-			oConnectionPool.close();
-		}
-	}
+        try {
+            oConnectionPool = new BoneCP(config);
+            oConnection = (Connection) oConnectionPool.getConnection();
+            return oConnection;
+
+        } catch (SQLException ex) {
+            String msgError = this.getClass().getName() + ":" + (ex.getStackTrace()[1]).getMethodName();
+            throw new Exception(msgError, ex);
+        }
+
+    }
+
+    public void disposeConnection() throws Exception {
+        if (oConnection != null) {
+            oConnection.close();
+        }
+        if (oConnectionPool != null) {
+            oConnectionPool.close();
+        }
+    }
 }

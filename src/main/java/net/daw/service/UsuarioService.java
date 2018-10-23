@@ -1,26 +1,23 @@
 package net.daw.service;
 
+import com.google.gson.Gson;
 import java.sql.Connection;
 import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
-
-import com.google.gson.Gson;
-
 import net.daw.bean.ReplyBean;
-import net.daw.bean.TipousuarioBean;
+import net.daw.bean.UsuarioBean;
 import net.daw.connection.publicinterface.ConnectionInterface;
 import net.daw.constant.ConnectionConstants;
-import net.daw.dao.TipousuarioDao;
+import net.daw.dao.UsuarioDao;
 import net.daw.factory.ConnectionFactory;
 import net.daw.helper.EncodingHelper;
 
-public class TipousuarioService {
+public class UsuarioService {
 
     HttpServletRequest oRequest;
     String ob = null;
 
-    public TipousuarioService(HttpServletRequest oRequest) {
+    public UsuarioService(HttpServletRequest oRequest) {
         super();
         this.oRequest = oRequest;
         ob = oRequest.getParameter("ob");
@@ -34,10 +31,10 @@ public class TipousuarioService {
             Integer id = Integer.parseInt(oRequest.getParameter("id"));
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
-            TipousuarioDao oTipousuarioDao = new TipousuarioDao(oConnection, ob);
-            TipousuarioBean oTipousuarioBean = oTipousuarioDao.get(id);
+            UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, ob);
+            UsuarioBean oUsuarioBean = oUsuarioDao.get(id);
             Gson oGson = new Gson();
-            oReplyBean = new ReplyBean(200, oGson.toJson(oTipousuarioBean));
+            oReplyBean = new ReplyBean(200, oGson.toJson(oUsuarioBean));
         } catch (Exception ex) {
             oReplyBean = new ReplyBean(500,
                     "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
@@ -55,8 +52,8 @@ public class TipousuarioService {
             Integer id = Integer.parseInt(oRequest.getParameter("id"));
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
-            TipousuarioDao oTipousuarioDao = new TipousuarioDao(oConnection, ob);
-            int iRes = oTipousuarioDao.remove(id);
+            UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, ob);
+            int iRes = oUsuarioDao.remove(id);
             oReplyBean = new ReplyBean(200, Integer.toString(iRes));
         } catch (Exception ex) {
             oReplyBean = new ReplyBean(500,
@@ -66,7 +63,7 @@ public class TipousuarioService {
         }
         return oReplyBean;
     }
-
+    
     public ReplyBean getcount() throws Exception {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
@@ -74,8 +71,8 @@ public class TipousuarioService {
         try {
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
-            TipousuarioDao oTipousuarioDao = new TipousuarioDao(oConnection, ob);
-            int registros = oTipousuarioDao.getcount();
+            UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, ob);
+            int registros = oUsuarioDao.getcount();
             Gson oGson = new Gson();
             oReplyBean = new ReplyBean(200, oGson.toJson(registros));
         } catch (Exception ex) {
@@ -86,7 +83,7 @@ public class TipousuarioService {
         }
         return oReplyBean;
     }
-
+    
     public ReplyBean create() throws Exception {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
@@ -94,13 +91,13 @@ public class TipousuarioService {
         try {
             String strJsonFromClient = oRequest.getParameter("json");
             Gson oGson = new Gson();
-            TipousuarioBean oTipousuarioBean = new TipousuarioBean();
-            oTipousuarioBean = oGson.fromJson(strJsonFromClient, TipousuarioBean.class);
+            UsuarioBean oUsuarioBean = new UsuarioBean();
+            oUsuarioBean = oGson.fromJson(strJsonFromClient, UsuarioBean.class);
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
-            TipousuarioDao oTipousuarioDao = new TipousuarioDao(oConnection, ob);
-            oTipousuarioBean = oTipousuarioDao.create(oTipousuarioBean);
-            oReplyBean = new ReplyBean(200, oGson.toJson(oTipousuarioBean));
+            UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, ob);
+            oUsuarioBean = oUsuarioDao.create(oUsuarioBean);
+            oReplyBean = new ReplyBean(200, oGson.toJson(oUsuarioBean));
         } catch (Exception ex) {
             oReplyBean = new ReplyBean(500,
                     "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
@@ -109,7 +106,7 @@ public class TipousuarioService {
         }
         return oReplyBean;
     }
-
+    
     public ReplyBean update() throws Exception {
         int iRes = 0;
         ReplyBean oReplyBean = null;
@@ -118,12 +115,12 @@ public class TipousuarioService {
         try {
             String strJsonFromClient = oRequest.getParameter("json");
             Gson oGson = new Gson();
-            TipousuarioBean oTipousuarioBean = new TipousuarioBean();
-            oTipousuarioBean = oGson.fromJson(strJsonFromClient, TipousuarioBean.class);
+            UsuarioBean oUsuarioBean = new UsuarioBean();
+            oUsuarioBean = oGson.fromJson(strJsonFromClient, UsuarioBean.class);
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
-            TipousuarioDao oTipousuarioDao = new TipousuarioDao(oConnection, ob);
-            iRes = oTipousuarioDao.update(oTipousuarioBean);
+            UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, ob);
+            iRes = oUsuarioDao.update(oUsuarioBean);
             oReplyBean.setStatus(200);
             oReplyBean.setJson(Integer.toString(iRes));
         } catch (Exception ex) {
@@ -134,7 +131,7 @@ public class TipousuarioService {
         }
         return oReplyBean;
     }
-
+    
     public ReplyBean getpage() throws Exception {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
@@ -144,8 +141,8 @@ public class TipousuarioService {
             Integer iPage = Integer.parseInt(oRequest.getParameter("page"));
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
-            TipousuarioDao oTipousuarioDao = new TipousuarioDao(oConnection, ob);
-            ArrayList<TipousuarioBean> alTipousuarioBean = oTipousuarioDao.getpage(iRpp, iPage);
+            UsuarioDao oTipousuarioDao = new UsuarioDao(oConnection, ob);
+            ArrayList<UsuarioBean> alTipousuarioBean = oTipousuarioDao.getpage(iRpp, iPage);
             Gson oGson = new Gson();
             oReplyBean = new ReplyBean(200, oGson.toJson(alTipousuarioBean));
         } catch (Exception ex) {
@@ -156,5 +153,5 @@ public class TipousuarioService {
         }
         return oReplyBean;
     }
-
+    
 }

@@ -1,6 +1,7 @@
 package net.daw.bean;
 
 public class TipoproductoBean {
+
     private int id;
     private String desc;
 
@@ -19,5 +20,5 @@ public class TipoproductoBean {
     public void setDesc(String desc) {
         this.desc = desc;
     }
-    
+
 }

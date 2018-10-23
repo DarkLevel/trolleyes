@@ -3,8 +3,8 @@ package net.daw.bean;
 import java.util.Date;
 
 public class FacturaBean {
-    
-    private int id;
+
+    private int id, id_usuario;
     private double iva;
     private Date fecha;
 
@@ -14,6 +14,14 @@ public class FacturaBean {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
     public double getIva() {
