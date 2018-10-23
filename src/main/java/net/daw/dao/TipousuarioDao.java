@@ -50,13 +50,13 @@ public class TipousuarioDao {
 
 	}
         
-        public boolean remove(TipousuarioBean oTipousuarioBean) throws Exception {
+        public boolean remove(int id) throws Exception {
 		String strSQL = "DELETE FROM " + ob + " WHERE id=?";
                 boolean estado = false;
 		PreparedStatement oPreparedStatement = null;
 		try {
 			oPreparedStatement = oConnection.prepareStatement(strSQL);
-			oPreparedStatement.setInt(1, oTipousuarioBean.getId());
+			oPreparedStatement.setInt(1, id);
 			oPreparedStatement.execute();
                         estado = true;
 		} catch (SQLException e) {
@@ -69,7 +69,7 @@ public class TipousuarioDao {
 		return estado;
 	}
         
-        public int count() throws Exception {
+        public int getCount() throws Exception {
 		String strSQL = "SELECT COUNT(DISTINCT(id)) FROM " + ob;
                 int numeroTipoUsuarios;
                 ResultSet oResultSet = null;
@@ -95,7 +95,7 @@ public class TipousuarioDao {
 		return numeroTipoUsuarios;
 	}
         
-        public int maxId() throws Exception {
+        public int getMaxId() throws Exception {
 		String strSQL = "SELECT MAX(id) FROM " + ob;
                 int maxId = 0;
                 ResultSet oResultSet = null;

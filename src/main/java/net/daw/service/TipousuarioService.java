@@ -56,9 +56,7 @@ public class TipousuarioService {
 			oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
 			oConnection = oConnectionPool.newConnection();
 			TipousuarioDao oTipousuarioDao = new TipousuarioDao(oConnection);
-                        TipousuarioBean oTipousuarioBean = new TipousuarioBean();
-                        oTipousuarioBean.setId(id);
-			boolean resultado = oTipousuarioDao.remove(oTipousuarioBean);
+			boolean resultado = oTipousuarioDao.remove(id);
 			Gson oGson = new Gson();
 			oReplyBean = new ReplyBean(200, oGson.toJson(resultado));
 		} catch (Exception ex) {
@@ -69,7 +67,7 @@ public class TipousuarioService {
 		return oReplyBean;
 	}
         
-        public ReplyBean count() throws Exception {
+        public ReplyBean getCount() throws Exception {
 		ReplyBean oReplyBean;
 		ConnectionInterface oConnectionPool = null;
 		Connection oConnection ;
@@ -77,7 +75,7 @@ public class TipousuarioService {
 			oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
 			oConnection = oConnectionPool.newConnection();
 			TipousuarioDao oTipousuarioDao = new TipousuarioDao(oConnection);
-			int numeroTipoUsuarios = oTipousuarioDao.count();
+			int numeroTipoUsuarios = oTipousuarioDao.getCount();
 			Gson oGson = new Gson();
 			oReplyBean = new ReplyBean(200, oGson.toJson(numeroTipoUsuarios));
 		} catch (Exception ex) {
@@ -96,7 +94,7 @@ public class TipousuarioService {
 			oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
 			oConnection = oConnectionPool.newConnection();
 			TipousuarioDao oTipousuarioDao = new TipousuarioDao(oConnection);
-			int maxId = oTipousuarioDao.maxId();
+			int maxId = oTipousuarioDao.getMaxId();
                         String desc = oRequest.getParameter("desc");
                         TipousuarioBean oTipousuarioBean = new TipousuarioBean();
                         oTipousuarioBean.setId(maxId);

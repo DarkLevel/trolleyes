@@ -81,7 +81,7 @@ public class json extends HttpServlet {
 
 						TipousuarioService oService = new TipousuarioService(request);
 						try {
-							ReplyBean oReplyBean = oService.count();
+							ReplyBean oReplyBean = oService.getCount();
 							strJson = "{\"status\":" + oReplyBean.getStatus() + ",\"message\":\"La tabla tipousuario tiene " + oReplyBean.getJson()
 									+ " resultados\"}";
 							
