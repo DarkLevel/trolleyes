@@ -4,26 +4,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-
+import java.util.ArrayList;
 
 import net.daw.bean.TipousuarioBean;
 
 public class TipousuarioDao {
 
 	Connection oConnection;
-	String ob = "tipoUsuario";
+	String ob = null;
 
-	public TipousuarioDao(Connection oConnection) {
+	public TipousuarioDao(Connection oConnection, String ob) {
 		super();
 		this.oConnection = oConnection;
+		this.ob = ob;
 	}
 
 	public TipousuarioBean get(int id) throws Exception {
 		String strSQL = "SELECT * FROM " + ob + " WHERE id=?";
 		TipousuarioBean oTipousuarioBean;
 		ResultSet oResultSet = null;
-		PreparedStatement oPreparedStatement =null;
+		PreparedStatement oPreparedStatement = null;
 		try {
 			oPreparedStatement = oConnection.prepareStatement(strSQL);
 			oPreparedStatement.setInt(1, id);
@@ -36,127 +36,140 @@ public class TipousuarioDao {
 				oTipousuarioBean = null;
 			}
 		} catch (SQLException e) {
-			throw new Exception ("Error en Dao get de tipousuario",e);
+			throw new Exception("Error en Dao get de " + ob, e);
 		} finally {
-			if (oResultSet!=null) {
+			if (oResultSet != null) {
 				oResultSet.close();
 			}
-			if (oPreparedStatement!=null) {
+			if (oPreparedStatement != null) {
 				oPreparedStatement.close();
 			}
 		}
-
 		return oTipousuarioBean;
-
 	}
-        
-        public boolean remove(int id) throws Exception {
+
+	public int remove(int id) throws Exception {
+		int iRes = 0;
 		String strSQL = "DELETE FROM " + ob + " WHERE id=?";
-                boolean estado = false;
 		PreparedStatement oPreparedStatement = null;
 		try {
 			oPreparedStatement = oConnection.prepareStatement(strSQL);
 			oPreparedStatement.setInt(1, id);
-			oPreparedStatement.execute();
-                        estado = true;
+			iRes = oPreparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			throw new Exception ("Error en Dao remove de tipousuario",e);
+			throw new Exception("Error en Dao remove de " + ob, e);
 		} finally {
-			if (oPreparedStatement!=null) {
+			if (oPreparedStatement != null) {
 				oPreparedStatement.close();
 			}
 		}
-		return estado;
+		return iRes;
 	}
-        
-        public int getCount() throws Exception {
-		String strSQL = "SELECT COUNT(DISTINCT(id)) FROM " + ob;
-                int numeroTipoUsuarios;
-                ResultSet oResultSet = null;
+
+	public int getcount() throws Exception {
+		String strSQL = "SELECT COUNT(id) FROM " + ob;
+		int res = 0;
+		ResultSet oResultSet = null;
 		PreparedStatement oPreparedStatement = null;
 		try {
 			oPreparedStatement = oConnection.prepareStatement(strSQL);
-                        oResultSet = oPreparedStatement.executeQuery();
-                        if (oResultSet.next()) {
-				numeroTipoUsuarios = oResultSet.getInt(1);
+			oResultSet = oPreparedStatement.executeQuery();
+			if (oResultSet.next()) {
+				res = oResultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new Exception("Error en Dao get de " + ob, e);
+		} finally {
+			if (oResultSet != null) {
+				oResultSet.close();
+			}
+			if (oPreparedStatement != null) {
+				oPreparedStatement.close();
+			}
+		}
+		return res;
+	}
+
+	public TipousuarioBean create(TipousuarioBean oTipousuarioBean) throws Exception {
+		String strSQL = "INSERT INTO " + ob + " (`id`, `desc`) VALUES (NULL, ?); ";
+		ResultSet oResultSet = null;
+		PreparedStatement oPreparedStatement = null;
+		try {
+			oPreparedStatement = oConnection.prepareStatement(strSQL);
+			oPreparedStatement.setString(1, oTipousuarioBean.getDesc());
+			oPreparedStatement.executeUpdate();
+			oResultSet = oPreparedStatement.getGeneratedKeys();
+			if (oResultSet.next()) {
+				oTipousuarioBean.setId(oResultSet.getInt(1));
 			} else {
-				numeroTipoUsuarios = 0;
+				oTipousuarioBean.setId(0);
 			}
 		} catch (SQLException e) {
-			throw new Exception ("Error en Dao count de tipousuario",e);
+			throw new Exception("Error en Dao create de " + ob, e);
 		} finally {
-			if (oResultSet!=null) {
+			if (oResultSet != null) {
 				oResultSet.close();
 			}
-			if (oPreparedStatement!=null) {
+			if (oPreparedStatement != null) {
 				oPreparedStatement.close();
 			}
 		}
-		return numeroTipoUsuarios;
+		return oTipousuarioBean;
 	}
-        
-        public int getMaxId() throws Exception {
-		String strSQL = "SELECT MAX(id) FROM " + ob;
-                int maxId = 0;
-                ResultSet oResultSet = null;
+
+	public int update(TipousuarioBean oTipousuarioBean) throws Exception {
+		int iResult = 0;
+		String strSQL = "UPDATE " + ob + " SET desc = ? WHERE id = ?;";
+
 		PreparedStatement oPreparedStatement = null;
 		try {
 			oPreparedStatement = oConnection.prepareStatement(strSQL);
-                        oResultSet = oPreparedStatement.executeQuery();
-                        if (oResultSet.next()) {
-				maxId = oResultSet.getInt(1);
-			}
+			oPreparedStatement.setString(1, oTipousuarioBean.getDesc());
+			oPreparedStatement.setInt(2, oTipousuarioBean.getId());
+			iResult = oPreparedStatement.executeUpdate();
+
 		} catch (SQLException e) {
-			throw new Exception ("Error en Dao maxId de tipousuario",e);
+			throw new Exception("Error en Dao update de " + ob, e);
 		} finally {
-			if (oResultSet!=null) {
-				oResultSet.close();
-			}
-			if (oPreparedStatement!=null) {
+			if (oPreparedStatement != null) {
 				oPreparedStatement.close();
 			}
 		}
-		return maxId += 1;
+		return iResult;
 	}
-        
-        public boolean create(TipousuarioBean oTipousuarioBean) throws Exception {
-		String strSQL = "INSERT INTO `" + ob + "`(`id`, `desc`) VALUES (?,?)";
-                boolean estado = false;
-		PreparedStatement oPreparedStatement = null;
-		try {
-			oPreparedStatement = oConnection.prepareStatement(strSQL);
-                        oPreparedStatement.setInt(1, oTipousuarioBean.getId());
-			oPreparedStatement.setString(2, oTipousuarioBean.getDesc());
-			oPreparedStatement.execute();
-                        estado = true;
-		} catch (SQLException e) {
-			throw new Exception ("Error en Dao create de tipousuario",e);
-		} finally {
-			if (oPreparedStatement!=null) {
-				oPreparedStatement.close();
+
+	public ArrayList<TipousuarioBean> getpage(int iRpp, int iPage) throws Exception {
+		String strSQL = "SELECT * FROM `tipousuario` ";
+		ArrayList<TipousuarioBean> alTipousuarioBean;
+		if (iRpp > 0 && iRpp < 100000 && iPage > 0 && iPage < 100000000) {
+			strSQL += " LIMIT " + (iPage - 1) * iRpp + ", " + iRpp;
+			ResultSet oResultSet = null;
+			PreparedStatement oPreparedStatement = null;
+			try {
+				oPreparedStatement = oConnection.prepareStatement(strSQL);
+				oResultSet = oPreparedStatement.executeQuery();
+				alTipousuarioBean = new ArrayList<TipousuarioBean>();
+				while (oResultSet.next()) {
+					TipousuarioBean oTipousuarioBean = new TipousuarioBean();
+					oTipousuarioBean.setId(oResultSet.getInt("id"));
+					oTipousuarioBean.setDesc(oResultSet.getString("desc"));
+					alTipousuarioBean.add(oTipousuarioBean);
+				}
+			} catch (SQLException e) {
+				throw new Exception("Error en Dao getpage de " + ob, e);
+			} finally {
+				if (oResultSet != null) {
+					oResultSet.close();
+				}
+				if (oPreparedStatement != null) {
+					oPreparedStatement.close();
+				}
 			}
+		} else {
+			throw new Exception("Error en Dao getpage de " + ob);
 		}
-		return estado;
-	}
-        
-        public boolean update(TipousuarioBean oTipousuarioBean) throws Exception {
-		String strSQL = "UPDATE `" + ob + "` SET `desc`=? WHERE id=?";
-                boolean estado = false;
-		PreparedStatement oPreparedStatement = null;
-		try {
-			oPreparedStatement = oConnection.prepareStatement(strSQL);
-                        oPreparedStatement.setString(1, oTipousuarioBean.getDesc());
-                        oPreparedStatement.setInt(2, oTipousuarioBean.getId());
-			oPreparedStatement.execute();
-                        estado = true;
-		} catch (SQLException e) {
-			throw new Exception ("Error en Dao update de tipousuario",e);
-		} finally {
-			if (oPreparedStatement!=null) {
-				oPreparedStatement.close();
-			}
-		}
-		return estado;
-	}
+		return alTipousuarioBean;
+
+	}       
 
 }
