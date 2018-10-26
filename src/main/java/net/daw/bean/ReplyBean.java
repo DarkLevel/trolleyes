@@ -1,30 +1,30 @@
 package net.daw.bean;
 
 public class ReplyBean {
-	
-	private int status;
-	private String json;
 
-	public ReplyBean(int status, String json) {
-		super();
-		this.status = status;
-		this.json = json;
-	}
+    private int status;
+    private String json;
 
-	public int getStatus() {
-		return status;
-	}
+    public ReplyBean(int status, String json) {
+        super();
+        this.status = status;
+        this.json = json;
+    }
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
+    public int getStatus() {
+        return status;
+    }
 
-	public String getJson() {
-		return json;
-	}
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
-	public void setJson(String json) {
-		this.json = json;
-	}
+    public String getJson() {
+        return json;
+    }
+
+    public void setJson(String json) {
+        this.json = json;
+    }
 
 }
