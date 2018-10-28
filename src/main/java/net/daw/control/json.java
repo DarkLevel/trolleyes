@@ -1,5 +1,6 @@
 package net.daw.control;
 
+import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -60,7 +61,7 @@ public class json extends HttpServlet {
 
 		String strJson = "";
 		JsonHelper json = new JsonHelper();
-
+                
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (Exception ex) {

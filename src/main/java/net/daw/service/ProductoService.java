@@ -15,6 +15,7 @@ import net.daw.connection.publicinterface.ConnectionInterface;
 import net.daw.constant.ConnectionConstants;
 import net.daw.dao.ProductoDao;
 import net.daw.factory.ConnectionFactory;
+import net.daw.generadores.Generadorproductos;
 import net.daw.helper.EncodingHelper;
 
 /**
@@ -23,149 +24,177 @@ import net.daw.helper.EncodingHelper;
  */
 public class ProductoService {
     HttpServletRequest oRequest;
-	String ob = null;
+    String ob = null;
 
-	public ProductoService(HttpServletRequest oRequest) {
-		super();
-		this.oRequest = oRequest;
-		ob = oRequest.getParameter("ob");
-	}
+    public ProductoService(HttpServletRequest oRequest) {
+        super();
+        this.oRequest = oRequest;
+        ob = oRequest.getParameter("ob");
+    }
 
-	public ReplyBean get() throws Exception {
-		ReplyBean oReplyBean;
-		ConnectionInterface oConnectionPool = null;
-		Connection oConnection;
-		try {
-			Integer id = Integer.parseInt(oRequest.getParameter("id"));
-			oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
-			oConnection = oConnectionPool.newConnection();
-			ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
-			ProductoBean oProductoBean = oProductoDao.get(id);
-			Gson oGson = new Gson();
-			oReplyBean = new ReplyBean(200, oGson.toJson(oProductoBean));
-		} catch (Exception ex) {
-			oReplyBean = new ReplyBean(500,
-					"ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
-		} finally {
-			oConnectionPool.disposeConnection();
-		}
+    public ReplyBean get() throws Exception {
+        ReplyBean oReplyBean;
+        ConnectionInterface oConnectionPool = null;
+        Connection oConnection;
+        try {
+            Integer id = Integer.parseInt(oRequest.getParameter("id"));
+            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+            oConnection = oConnectionPool.newConnection();
+            ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
+            ProductoBean oProductoBean = oProductoDao.get(id);
+            Gson oGson = new Gson();
+            oReplyBean = new ReplyBean(200, oGson.toJson(oProductoBean));
+        } catch (Exception ex) {
+            oReplyBean = new ReplyBean(500,
+                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+        } finally {
+            oConnectionPool.disposeConnection();
+        }
 
-		return oReplyBean;
+        return oReplyBean;
 
-	}
+    }
 
-	public ReplyBean remove() throws Exception {
-		ReplyBean oReplyBean;
-		ConnectionInterface oConnectionPool = null;
-		Connection oConnection;
-		try {
-			Integer id = Integer.parseInt(oRequest.getParameter("id"));
-			oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
-			oConnection = oConnectionPool.newConnection();
-			ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
-			int iRes = oProductoDao.remove(id);
-			oReplyBean = new ReplyBean(200, Integer.toString(iRes));
-		} catch (Exception ex) {
-			oReplyBean = new ReplyBean(500,
-					"ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
-		} finally {
-			oConnectionPool.disposeConnection();
-		}
-		return oReplyBean;
+    public ReplyBean remove() throws Exception {
+        ReplyBean oReplyBean;
+        ConnectionInterface oConnectionPool = null;
+        Connection oConnection;
+        try {
+            Integer id = Integer.parseInt(oRequest.getParameter("id"));
+            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+            oConnection = oConnectionPool.newConnection();
+            ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
+            int iRes = oProductoDao.remove(id);
+            oReplyBean = new ReplyBean(200, Integer.toString(iRes));
+        } catch (Exception ex) {
+            oReplyBean = new ReplyBean(500,
+                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+        } finally {
+            oConnectionPool.disposeConnection();
+        }
+        return oReplyBean;
 
-	}
+    }
 
-	public ReplyBean getcount() throws Exception {
-		ReplyBean oReplyBean;
-		ConnectionInterface oConnectionPool = null;
-		Connection oConnection;
-		try {
-			oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
-			oConnection = oConnectionPool.newConnection();
-			ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
-			int registros = oProductoDao.getcount();
-			Gson oGson = new Gson();
-			oReplyBean = new ReplyBean(200, oGson.toJson(registros));
-		} catch (Exception ex) {
-			oReplyBean = new ReplyBean(500,
-					"ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
-		} finally {
-			oConnectionPool.disposeConnection();
-		}
+    public ReplyBean getcount() throws Exception {
+        ReplyBean oReplyBean;
+        ConnectionInterface oConnectionPool = null;
+        Connection oConnection;
+        try {
+            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+            oConnection = oConnectionPool.newConnection();
+            ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
+            int registros = oProductoDao.getcount();
+            Gson oGson = new Gson();
+            oReplyBean = new ReplyBean(200, oGson.toJson(registros));
+        } catch (Exception ex) {
+            oReplyBean = new ReplyBean(500,
+                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+        } finally {
+            oConnectionPool.disposeConnection();
+        }
 
-		return oReplyBean;
+        return oReplyBean;
 
-	}
+    }
 
-	public ReplyBean create() throws Exception {
-		ReplyBean oReplyBean;
-		ConnectionInterface oConnectionPool = null;
-		Connection oConnection;
-		try {
-			String strJsonFromClient = oRequest.getParameter("json");
-			Gson oGson = new Gson();
-			ProductoBean oProductoBean = new ProductoBean();
-			oProductoBean = oGson.fromJson(strJsonFromClient, ProductoBean.class);
-			oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
-			oConnection = oConnectionPool.newConnection();
-			ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
-			oProductoBean = oProductoDao.create(oProductoBean);
-			oReplyBean = new ReplyBean(200, oGson.toJson(oProductoBean));
-		} catch (Exception ex) {
-			oReplyBean = new ReplyBean(500,
-					"ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
-		} finally {
-			oConnectionPool.disposeConnection();
-		}
-		return oReplyBean;
-	}
+    public ReplyBean create() throws Exception {
+        ReplyBean oReplyBean;
+        ConnectionInterface oConnectionPool = null;
+        Connection oConnection;
+        try {
+            String strJsonFromClient = oRequest.getParameter("json");
+            Gson oGson = new Gson();
+            ProductoBean oProductoBean = new ProductoBean();
+            oProductoBean = oGson.fromJson(strJsonFromClient, ProductoBean.class);
+            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+            oConnection = oConnectionPool.newConnection();
+            ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
+            oProductoBean = oProductoDao.create(oProductoBean);
+            oReplyBean = new ReplyBean(200, oGson.toJson(oProductoBean));
+        } catch (Exception ex) {
+            oReplyBean = new ReplyBean(500,
+                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+        } finally {
+            oConnectionPool.disposeConnection();
+        }
+        return oReplyBean;
+    }
 
-	public ReplyBean update() throws Exception {
-		int iRes = 0;
-		ReplyBean oReplyBean = null;
-		ConnectionInterface oConnectionPool = null;
-		Connection oConnection;
-		try {
-			String strJsonFromClient = oRequest.getParameter("json");
-			Gson oGson = new Gson();
-			ProductoBean oProductoBean = new ProductoBean();
-			oProductoBean = oGson.fromJson(strJsonFromClient, ProductoBean.class);
-			oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
-			oConnection = oConnectionPool.newConnection();
-			ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
-			iRes = oProductoDao.update(oProductoBean);
-			oReplyBean.setStatus(200);
-			oReplyBean.setJson(Integer.toString(iRes));
-		} catch (Exception ex) {
-			oReplyBean = new ReplyBean(500,
-					"ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
-		} finally {
-			oConnectionPool.disposeConnection();
-		}
-		return oReplyBean;
-	}
+    public ReplyBean update() throws Exception {
+        int iRes = 0;
+        ReplyBean oReplyBean = null;
+        ConnectionInterface oConnectionPool = null;
+        Connection oConnection;
+        try {
+            String strJsonFromClient = oRequest.getParameter("json");
+            Gson oGson = new Gson();
+            ProductoBean oProductoBean = new ProductoBean();
+            oProductoBean = oGson.fromJson(strJsonFromClient, ProductoBean.class);
+            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+            oConnection = oConnectionPool.newConnection();
+            ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
+            iRes = oProductoDao.update(oProductoBean);
+            oReplyBean.setStatus(200);
+            oReplyBean.setJson(Integer.toString(iRes));
+        } catch (Exception ex) {
+            oReplyBean = new ReplyBean(500,
+                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+        } finally {
+            oConnectionPool.disposeConnection();
+        }
+        return oReplyBean;
+    }
 
-	public ReplyBean getpage() throws Exception {
-		ReplyBean oReplyBean;
-		ConnectionInterface oConnectionPool = null;
-		Connection oConnection;
-		try {
-			Integer iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
-			Integer iPage = Integer.parseInt(oRequest.getParameter("page"));
-			oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
-			oConnection = oConnectionPool.newConnection();
-			ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
-			ArrayList<ProductoBean> alProductoBean = oProductoDao.getpage(iRpp, iPage);
-			Gson oGson = new Gson();
-			oReplyBean = new ReplyBean(200, oGson.toJson(alProductoBean));
-		} catch (Exception ex) {
-			oReplyBean = new ReplyBean(500,
-					"ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
-		} finally {
-			oConnectionPool.disposeConnection();
-		}
+    public ReplyBean getpage() throws Exception {
+        ReplyBean oReplyBean;
+        ConnectionInterface oConnectionPool = null;
+        Connection oConnection;
+        try {
+            Integer iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
+            Integer iPage = Integer.parseInt(oRequest.getParameter("page"));
+            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+            oConnection = oConnectionPool.newConnection();
+            ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
+            ArrayList<ProductoBean> alProductoBean = oProductoDao.getpage(iRpp, iPage);
+            Gson oGson = new Gson();
+            oReplyBean = new ReplyBean(200, oGson.toJson(alProductoBean));
+        } catch (Exception ex) {
+            oReplyBean = new ReplyBean(500,
+                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+        } finally {
+            oConnectionPool.disposeConnection();
+        }
 
-		return oReplyBean;
+        return oReplyBean;
 
-	}
+    }
+
+    // http://localhost:8081/trolleyes/json?ob=producto&op=filldatabase&numprod=2
+    public ReplyBean filldatabase() throws Exception {
+        ReplyBean oReplyBean = null;
+        ConnectionInterface oConnectionPool = null;
+        Connection oConnection;
+        try {
+            Integer cantidadProductos = Integer.parseInt(oRequest.getParameter("numprod"));
+            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+            oConnection = oConnectionPool.newConnection();
+            Gson oGson = new Gson();
+            for (int i = 0; i < cantidadProductos; i++) {
+                Generadorproductos oGeneradorproductos = new Generadorproductos();
+                String strJsonFromGenerador = oGeneradorproductos.generar();
+                ProductoBean oProductoBean = new ProductoBean();
+                oProductoBean = oGson.fromJson(strJsonFromGenerador, ProductoBean.class);
+                ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
+                oProductoBean = oProductoDao.create(oProductoBean);
+            }
+            oReplyBean = new ReplyBean(200, oGson.toJson("{\"productos creados\":" + cantidadProductos + "}"));
+        } catch (Exception ex) {
+            oReplyBean = new ReplyBean(500,
+                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+        } finally {
+            oConnectionPool.disposeConnection();
+        }
+        return oReplyBean;
+    }
 }
