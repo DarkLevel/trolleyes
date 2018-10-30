@@ -179,10 +179,10 @@ public class ProductoService {
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
             Gson oGson = new Gson();
+            Generadorproductos oGeneradorproductos = new Generadorproductos();
+            ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
             for (int i = 0; i < cantidadProductos; i++) {
-                Generadorproductos oGeneradorproductos = new Generadorproductos();
-                ProductoBean oProductoBean = oGeneradorproductos.generar();
-                ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
+                ProductoBean oProductoBean = oGeneradorproductos.generar();         
                 oProductoDao.create(oProductoBean);
             }
             oReplyBean = new ReplyBean(200, oGson.toJson("{\"productos creados\":" + cantidadProductos + "}"));
