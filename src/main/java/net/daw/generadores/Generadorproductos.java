@@ -26,9 +26,6 @@ public class Generadorproductos {
         oProductoBean.setPrecio(arrayPrecio[random_4]);
         oProductoBean.setFoto(arrayFoto[random_5]);
         oProductoBean.setId_tipoProducto(arrayId_tipoProducto[random_6]);
-        
-        String strJson = "{\"codigo\":\"" + arrayCodigo[random_1] + "\",\"desc\":\"" + arrayDesc[random_2] + "\",\"existencias\":" + arrayExistencias[random_3]
-                + ",\"precio\":" + arrayPrecio[random_4] + ",\"foto\":\"" + arrayFoto[random_5] + "\",\"id_tipoProducto\":" + arrayId_tipoProducto[random_6] + "}";
 
         return oProductoBean;
     }
