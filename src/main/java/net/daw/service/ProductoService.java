@@ -170,7 +170,6 @@ public class ProductoService {
 
     }
 
-    // http://localhost:8081/trolleyes/json?ob=producto&op=filldatabase&numprod=2
     public ReplyBean filldatabase() throws Exception {
         ReplyBean oReplyBean = null;
         ConnectionInterface oConnectionPool = null;
@@ -182,11 +181,9 @@ public class ProductoService {
             Gson oGson = new Gson();
             for (int i = 0; i < cantidadProductos; i++) {
                 Generadorproductos oGeneradorproductos = new Generadorproductos();
-                String strJsonFromGenerador = oGeneradorproductos.generar();
-                ProductoBean oProductoBean = new ProductoBean();
-                oProductoBean = oGson.fromJson(strJsonFromGenerador, ProductoBean.class);
+                ProductoBean oProductoBean = oGeneradorproductos.generar();
                 ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
-                oProductoBean = oProductoDao.create(oProductoBean);
+                oProductoDao.create(oProductoBean);
             }
             oReplyBean = new ReplyBean(200, oGson.toJson("{\"productos creados\":" + cantidadProductos + "}"));
         } catch (Exception ex) {
