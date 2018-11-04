@@ -170,19 +170,20 @@ public class ProductoService {
 
     }
 
-    public ReplyBean filldatabase() throws Exception {
+    public ReplyBean fill() throws Exception {
         ReplyBean oReplyBean = null;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;
         try {
-            Integer cantidadProductos = Integer.parseInt(oRequest.getParameter("numprod"));
+            Integer cantidadProductos = Integer.parseInt(oRequest.getParameter("cant"));
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
             Gson oGson = new Gson();
             Generadorproductos oGeneradorproductos = new Generadorproductos();
             ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
+            ProductoBean oProductoBean;
             for (int i = 0; i < cantidadProductos; i++) {
-                ProductoBean oProductoBean = oGeneradorproductos.generar();         
+                oProductoBean = oGeneradorproductos.generar();         
                 oProductoDao.create(oProductoBean);
             }
             oReplyBean = new ReplyBean(200, oGson.toJson("{\"productos creados\":" + cantidadProductos + "}"));

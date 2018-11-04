@@ -40,6 +40,9 @@ public class ServiceFactory {
 			case "getpage":
 				oReplyBean = oTipousuarioService.getpage();
 				break;
+                        case "fill":
+				oReplyBean = oTipousuarioService.fill();
+				break;
 			default:
 				oReplyBean = new ReplyBean(500, "Operation doesn't exist");
 				break;
@@ -65,6 +68,9 @@ public class ServiceFactory {
 				break;
 			case "getpage":
 				oReplyBean = oUsuarioService.getpage();
+				break;
+                        case "fill":
+				oReplyBean = oUsuarioService.fill();
 				break;
 			default:
 				oReplyBean = new ReplyBean(500, "Operation doesn't exist");
@@ -92,6 +98,9 @@ public class ServiceFactory {
 			case "getpage":
 				oReplyBean = oFacturaService.getpage();
 				break;
+                        case "fill":
+				oReplyBean = oFacturaService.fill();
+				break;
 			default:
 				oReplyBean = new ReplyBean(500, "Operation doesn't exist");
 				break;
@@ -117,6 +126,9 @@ public class ServiceFactory {
 				break;
 			case "getpage":
 				oReplyBean = oLineaService.getpage();
+				break;
+                        case "fill":
+				oReplyBean = oLineaService.fill();
 				break;
 			default:
 				oReplyBean = new ReplyBean(500, "Operation doesn't exist");
@@ -145,8 +157,8 @@ public class ServiceFactory {
 			case "getpage":
 				oReplyBean = oProductoService.getpage();
 				break;
-                        case "filldatabase":
-				oReplyBean = oProductoService.filldatabase();
+                        case "fill":
+				oReplyBean = oProductoService.fill();
 				break;
 			default:
 				oReplyBean = new ReplyBean(500, "Operation doesn't exist");
@@ -174,6 +186,9 @@ public class ServiceFactory {
 			case "getpage":
 				oReplyBean = oTipoproductoService.getpage();
 				break;
+                        case "fill":
+                                oReplyBean = oTipoproductoService.fill();
+				break;
 			default:
 				oReplyBean = new ReplyBean(500, "Operation doesn't exist");
 				break;
@@ -185,5 +200,4 @@ public class ServiceFactory {
 		}
 		return oReplyBean;
 	}
-
 }
