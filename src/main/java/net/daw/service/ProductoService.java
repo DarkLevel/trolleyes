@@ -153,7 +153,7 @@ public class ProductoService {
         try {
             Integer iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
             Integer iPage = Integer.parseInt(oRequest.getParameter("page"));
-            Integer column = Integer.parseInt(oRequest.getParameter("column"));
+            String column = oRequest.getParameter("column");
             String order = oRequest.getParameter("order");
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
