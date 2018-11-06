@@ -160,11 +160,11 @@ public class ProductoDao {
 		return iResult;
 	}
 
-	public ArrayList<ProductoBean> getpage(int iRpp, int iPage) throws Exception {
+	public ArrayList<ProductoBean> getpage(int iRpp, int iPage, int column, String order) throws Exception {
 		String strSQL = "SELECT * FROM " + ob;
 		ArrayList<ProductoBean> alProductoBean;
 		if (iRpp > 0 && iRpp < 100000 && iPage > 0 && iPage < 100000000) {
-			strSQL += " LIMIT " + (iPage - 1) * iRpp + ", " + iRpp;
+			strSQL += " LIMIT " + (iPage - 1) * iRpp + ", " + iRpp + " ORDER BY " + column + " " + order;
 			ResultSet oResultSet = null;
 			PreparedStatement oPreparedStatement = null;
 			try {

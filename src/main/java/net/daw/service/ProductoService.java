@@ -153,10 +153,12 @@ public class ProductoService {
         try {
             Integer iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
             Integer iPage = Integer.parseInt(oRequest.getParameter("page"));
+            Integer column = Integer.parseInt(oRequest.getParameter("column"));
+            String order = oRequest.getParameter("order");
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
             ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
-            ArrayList<ProductoBean> alProductoBean = oProductoDao.getpage(iRpp, iPage);
+            ArrayList<ProductoBean> alProductoBean = oProductoDao.getpage(iRpp, iPage, column, order);
             Gson oGson = new Gson();
             oReplyBean = new ReplyBean(200, oGson.toJson(alProductoBean));
         } catch (Exception ex) {
