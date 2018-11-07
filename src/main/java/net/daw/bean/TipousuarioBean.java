@@ -1,8 +1,12 @@
 package net.daw.bean;
 
+import com.google.gson.annotations.Expose;
+
 public class TipousuarioBean {
 
+    @Expose
     private int id;
+    @Expose
     private String desc;
 
     public int getId() {

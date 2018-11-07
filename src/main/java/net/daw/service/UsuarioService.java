@@ -8,15 +8,6 @@ package net.daw.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.BufferedInputStream;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,8 +22,6 @@ import net.daw.factory.ConnectionFactory;
 import net.daw.generadores.Generadorusuarios;
 import net.daw.helper.EncodingHelper;
 import net.daw.helper.ParameterCook;
-
-import org.apache.commons.io.IOUtils;
 
 /**
  *

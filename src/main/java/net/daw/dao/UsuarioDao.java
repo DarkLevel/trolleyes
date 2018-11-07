@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import net.daw.bean.UsuarioBean;
 import net.daw.helper.SqlBuilder;
 
@@ -183,6 +182,7 @@ public class UsuarioDao {
 				oPreparedStatement = oConnection.prepareStatement(strSQL);
 				oResultSet = oPreparedStatement.executeQuery();
 				alUsuarioBean = new ArrayList<UsuarioBean>();
+                                TipousuarioDao oTipousuarioDao = new TipousuarioDao(oConnection, "tipousuario");
 				while (oResultSet.next()) {
 					UsuarioBean oUsuarioBean = new UsuarioBean();
 					oUsuarioBean.setId(oResultSet.getInt("id"));
@@ -193,6 +193,7 @@ public class UsuarioDao {
 					oUsuarioBean.setLogin(oResultSet.getString("login"));
 					oUsuarioBean.setPass(null);
 					oUsuarioBean.setId_tipoUsuario(oResultSet.getInt("id_tipoUsuario"));
+                                        oUsuarioBean.setObj_tipoUsuario(oTipousuarioDao.get(oResultSet.getInt("id_tipoUsuario")));
 					alUsuarioBean.add(oUsuarioBean);
 				}
 			} catch (SQLException e) {
