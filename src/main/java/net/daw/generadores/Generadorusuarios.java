@@ -12,13 +12,13 @@ public class Generadorusuarios {
         String[] arrayPass = {"pass_1", "pass_2", "pass_3", "pass_4", "pass_5", "pass_6", "pass_7", "pass_8", "pass_9", "pass_10"};
         Integer[] arrayId_tipousuario = {1, 2, 3, 4, 5};
 
-        int random_1 = (int)(Math.random() * 9);
-        int random_2 = (int)(Math.random() * 9);
-        int random_3 = (int)(Math.random() * 9);
-        int random_4 = (int)(Math.random() * 9);
-        int random_5 = (int)(Math.random() * 9);
-        int random_6 = (int)(Math.random() * 9);
-        int random_7 = (int)(Math.random() * 4);
+        int random_1 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
+        int random_2 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
+        int random_3 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
+        int random_4 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
+        int random_5 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
+        int random_6 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
+        int random_7 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
 
         UsuarioBean oUsuarioBean = new UsuarioBean();
         
