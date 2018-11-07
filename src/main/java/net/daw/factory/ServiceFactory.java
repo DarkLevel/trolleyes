@@ -40,8 +40,8 @@ public class ServiceFactory {
 			case "getpage":
 				oReplyBean = oTipousuarioService.getpage();
 				break;
-                        case "fill":
-				oReplyBean = oTipousuarioService.fill();
+                        case "filldatabase":
+				oReplyBean = oTipousuarioService.filldatabase();
 				break;
 			default:
 				oReplyBean = new ReplyBean(500, "Operation doesn't exist");
@@ -69,8 +69,8 @@ public class ServiceFactory {
 			case "getpage":
 				oReplyBean = oUsuarioService.getpage();
 				break;
-                        case "fill":
-				oReplyBean = oUsuarioService.fill();
+                        case "filldatabase":
+				oReplyBean = oUsuarioService.filldatabase();
 				break;
 			default:
 				oReplyBean = new ReplyBean(500, "Operation doesn't exist");
@@ -98,8 +98,8 @@ public class ServiceFactory {
 			case "getpage":
 				oReplyBean = oFacturaService.getpage();
 				break;
-                        case "fill":
-				oReplyBean = oFacturaService.fill();
+                        case "filldatabase":
+				oReplyBean = oFacturaService.filldatabase();
 				break;
 			default:
 				oReplyBean = new ReplyBean(500, "Operation doesn't exist");
@@ -127,8 +127,8 @@ public class ServiceFactory {
 			case "getpage":
 				oReplyBean = oLineaService.getpage();
 				break;
-                        case "fill":
-				oReplyBean = oLineaService.fill();
+                        case "filldatabase":
+				oReplyBean = oLineaService.filldatabase();
 				break;
 			default:
 				oReplyBean = new ReplyBean(500, "Operation doesn't exist");
@@ -157,8 +157,8 @@ public class ServiceFactory {
 			case "getpage":
 				oReplyBean = oProductoService.getpage();
 				break;
-                        case "fill":
-				oReplyBean = oProductoService.fill();
+                        case "filldatabase":
+				oReplyBean = oProductoService.filldatabase();
 				break;
 			default:
 				oReplyBean = new ReplyBean(500, "Operation doesn't exist");
@@ -186,8 +186,8 @@ public class ServiceFactory {
 			case "getpage":
 				oReplyBean = oTipoproductoService.getpage();
 				break;
-                        case "fill":
-                                oReplyBean = oTipoproductoService.fill();
+                        case "filldatabase":
+                                oReplyBean = oTipoproductoService.filldatabase();
 				break;
 			default:
 				oReplyBean = new ReplyBean(500, "Operation doesn't exist");

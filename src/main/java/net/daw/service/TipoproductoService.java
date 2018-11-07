@@ -171,7 +171,7 @@ public class TipoproductoService {
 
     }
 
-    public ReplyBean fill() throws Exception {
+    public ReplyBean filldatabase() throws Exception {
         ReplyBean oReplyBean = null;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;
