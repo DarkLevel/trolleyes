@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
+import java.util.HashMap;
 
 import net.daw.bean.ReplyBean;
 import net.daw.bean.TipousuarioBean;
@@ -15,6 +16,7 @@ import net.daw.dao.TipousuarioDao;
 import net.daw.factory.ConnectionFactory;
 import net.daw.generadores.Generadortipousuarios;
 import net.daw.helper.EncodingHelper;
+import net.daw.helper.ParameterCook;
 
 public class TipousuarioService {
 
@@ -148,10 +150,11 @@ public class TipousuarioService {
         try {
             Integer iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
             Integer iPage = Integer.parseInt(oRequest.getParameter("page"));
+            HashMap<String, String> hmOrder = ParameterCook.getOrderParams(oRequest.getParameter("order"));
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
             TipousuarioDao oTipousuarioDao = new TipousuarioDao(oConnection, ob);
-            ArrayList<TipousuarioBean> alTipousuarioBean = oTipousuarioDao.getpage(iRpp, iPage, 1);
+            ArrayList<TipousuarioBean> alTipousuarioBean = oTipousuarioDao.getpage(iRpp, iPage, hmOrder, 1);
             Gson oGson = new Gson();
             oReplyBean = new ReplyBean(200, oGson.toJson(alTipousuarioBean));
         } catch (Exception ex) {
