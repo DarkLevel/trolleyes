@@ -6,6 +6,9 @@
 package net.daw.bean;
 
 import com.google.gson.annotations.Expose;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import net.daw.dao.TipousuarioDao;
 
 /**
  *
@@ -25,7 +28,7 @@ public class UsuarioBean {
     private String ape2;
     @Expose
     private String login;
-    @Expose
+    @Expose(serialize = false)
     private String pass;
     @Expose(serialize = false)
     private int id_tipoUsuario;
@@ -102,6 +105,23 @@ public class UsuarioBean {
 
     public void setId_tipoUsuario(int id_tipoUsuario) {
         this.id_tipoUsuario = id_tipoUsuario;
+    }
+
+    public UsuarioBean fill(ResultSet oResultSet, Connection oConnection, Integer expand) throws Exception {
+        this.setId(oResultSet.getInt("id"));
+        this.setDni(oResultSet.getString("dni"));
+        this.setNombre(oResultSet.getString("nombre"));
+        this.setApe1(oResultSet.getString("ape1"));
+        this.setApe2(oResultSet.getString("ape2"));
+        this.setLogin(oResultSet.getString("login"));
+        this.setPass(oResultSet.getString("pass"));
+        if (expand > 0) {
+            TipousuarioDao otipousuarioDao = new TipousuarioDao(oConnection, "tipousuario");
+            this.setObj_tipoUsuario(otipousuarioDao.get(oResultSet.getInt("id_tipoUsuario"), expand - 1));
+        } else {
+            this.setId_tipoUsuario(oResultSet.getInt("id_tipoUsuario"));
+        }
+        return this;
     }
 
 }
