@@ -5,7 +5,11 @@
  */
 package net.daw.bean;
 
+import com.google.gson.annotations.Expose;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.Date;
+import net.daw.dao.UsuarioDao;
 
 /**
  *
@@ -13,10 +17,24 @@ import java.util.Date;
  */
 public class FacturaBean {
 
+    @Expose
     private int id;
+    @Expose
     private Date fecha;
+    @Expose
     private double iva;
+    @Expose(serialize = false)
     private int id_usuario;
+    @Expose(deserialize = false)
+    private UsuarioBean obj_usuario;
+
+    public UsuarioBean getObj_usuario() {
+        return obj_usuario;
+    }
+
+    public void setObj_usuario(UsuarioBean obj_usuario) {
+        this.obj_usuario = obj_usuario;
+    }
 
     public int getId() {
         return id;
@@ -48,6 +66,47 @@ public class FacturaBean {
 
     public void setId_usuario(int id_usuario) {
         this.id_usuario = id_usuario;
+    }
+    
+    public FacturaBean fill(ResultSet oResultSet, Connection oConnection, Integer expand) throws Exception {
+        this.setId(oResultSet.getInt("id"));
+        this.setFecha(oResultSet.getDate("fecha"));
+        this.setIva(oResultSet.getDouble("iva"));
+        if (expand > 0) {
+            UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, "usuario");
+            this.setObj_usuario(oUsuarioDao.get(oResultSet.getInt("id_usuario"), expand - 1));
+        } else {
+            this.setId_usuario(oResultSet.getInt("id_usuario"));
+        }
+        return this;
+    }
+    
+    public String getColumns() {
+        String strColumns = "";
+        strColumns += "id,";
+        strColumns += "fecha,";
+        strColumns += "iva,";
+        strColumns += "id_usuario";
+        return strColumns;
+    }
+
+    public String getValues() {
+        String strColumns = "";
+        strColumns += "null,";
+        strColumns += fecha + ",";
+        strColumns += iva + ",";
+        strColumns += id_usuario;
+        return strColumns;
+    }
+
+    public String getPairs() {
+        String strPairs = "";
+        strPairs += "id=" + id + ",";
+        strPairs += "fecha=" + fecha + ",";
+        strPairs += "iva=" + iva + ",";
+        strPairs += "id_usuario=" + id_usuario;
+        strPairs += " WHERE id = ?";
+        return strPairs;
     }
 
 }

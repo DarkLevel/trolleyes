@@ -28,9 +28,9 @@ public class Generadorfacturas {
         Float[] arrayIva = {1.00f, 2.00f, 3.00f, 4.00f, 5.00f, 6.00f, 7.00f, 8.00f, 9.00f, 10.00f};
         Integer[] arrayId_usuario = {1, 2, 3, 4, 5};
 
-        int random_1 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
-        int random_2 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
-        int random_3 = (int)(Math.random() * ((4 - 0) + 1)) + 0;
+        int random_1 = (int)(Math.random() * ((8 - 0) + 1)) + 0;
+        int random_2 = (int)(Math.random() * ((8 - 0) + 1)) + 0;
+        int random_3 = (int)(Math.random() * ((3 - 0) + 1)) + 0;
 
         FacturaBean oFacturaBean = new FacturaBean();
         

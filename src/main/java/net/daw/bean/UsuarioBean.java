@@ -9,6 +9,7 @@ import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import net.daw.dao.TipousuarioDao;
+import net.daw.helper.EncodingHelper;
 
 /**
  *
@@ -35,16 +36,16 @@ public class UsuarioBean {
     @Expose(deserialize = false)
     private TipousuarioBean obj_tipoUsuario;
 
-    public int getId() {
-        return id;
-    }
-
     public TipousuarioBean getObj_tipoUsuario() {
         return obj_tipoUsuario;
     }
 
     public void setObj_tipoUsuario(TipousuarioBean obj_tipoUsuario) {
         this.obj_tipoUsuario = obj_tipoUsuario;
+    }
+    
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {
@@ -122,6 +123,44 @@ public class UsuarioBean {
             this.setId_tipoUsuario(oResultSet.getInt("id_tipoUsuario"));
         }
         return this;
+    }
+
+    public String getColumns() {
+        String strColumns = "";
+        strColumns += "id,";
+        strColumns += "dni,";
+        strColumns += "nombre,";
+        strColumns += "ape1,";
+        strColumns += "ape2,";
+        strColumns += "login,";
+        strColumns += "pass,";
+        strColumns += "id_tipoUsuario";
+        return strColumns;
+    }
+
+    public String getValues() {
+        String strColumns = "";
+        strColumns += "null,";
+        strColumns += EncodingHelper.quotate(dni) + ",";
+        strColumns += EncodingHelper.quotate(nombre) + ",";
+        strColumns += EncodingHelper.quotate(ape1) + ",";
+        strColumns += EncodingHelper.quotate(ape2) + ",";
+        strColumns += EncodingHelper.quotate(login) + ",";
+        strColumns += EncodingHelper.quotate("DA8AB09AB4889C6208116A675CAD0B13E335943BD7FC418782D054B32FDFBA04") + ",";
+        strColumns += id_tipoUsuario;
+        return strColumns;
+    }
+
+    public String getPairs() {
+        String strPairs = "";
+        strPairs += "id=" + id + ",";
+        strPairs += "nombre=" + EncodingHelper.quotate(nombre) + ",";
+        strPairs += "ape1=" + EncodingHelper.quotate(ape1) + ",";
+        strPairs += "ape2=" + EncodingHelper.quotate(ape2) + ",";
+        strPairs += "login=" + EncodingHelper.quotate(login) + ",";
+        strPairs += "id_tipoUsuario=" + id_tipoUsuario;
+        strPairs += " WHERE id = ?";
+        return strPairs;
     }
 
 }

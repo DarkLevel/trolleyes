@@ -6,8 +6,10 @@
 package net.daw.service;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import net.daw.bean.FacturaBean;
 import net.daw.bean.ReplyBean;
@@ -17,6 +19,7 @@ import net.daw.dao.FacturaDao;
 import net.daw.factory.ConnectionFactory;
 import net.daw.generadores.Generadorfacturas;
 import net.daw.helper.EncodingHelper;
+import net.daw.helper.ParameterCook;
 
 /**
  *
@@ -42,8 +45,8 @@ public class FacturaService {
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
             FacturaDao oFacturaDao = new FacturaDao(oConnection, ob);
-            FacturaBean oFacturaBean = oFacturaDao.get(id);
-            Gson oGson = new Gson();
+            FacturaBean oFacturaBean = oFacturaDao.get(id, 2);
+            Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
             oReplyBean = new ReplyBean(200, oGson.toJson(oFacturaBean));
         } catch (Exception ex) {
             oReplyBean = new ReplyBean(500,
@@ -86,7 +89,7 @@ public class FacturaService {
             oConnection = oConnectionPool.newConnection();
             FacturaDao oFacturaDao = new FacturaDao(oConnection, ob);
             int registros = oFacturaDao.getcount();
-            Gson oGson = new Gson();
+            Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
             oReplyBean = new ReplyBean(200, oGson.toJson(registros));
         } catch (Exception ex) {
             oReplyBean = new ReplyBean(500,
@@ -105,7 +108,7 @@ public class FacturaService {
         Connection oConnection;
         try {
             String strJsonFromClient = oRequest.getParameter("json");
-            Gson oGson = new Gson();
+            Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
             FacturaBean oFacturaBean = new FacturaBean();
             oFacturaBean = oGson.fromJson(strJsonFromClient, FacturaBean.class);
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
@@ -129,7 +132,7 @@ public class FacturaService {
         Connection oConnection;
         try {
             String strJsonFromClient = oRequest.getParameter("json");
-            Gson oGson = new Gson();
+            Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
             FacturaBean oFacturaBean = new FacturaBean();
             oFacturaBean = oGson.fromJson(strJsonFromClient, FacturaBean.class);
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
@@ -154,11 +157,12 @@ public class FacturaService {
         try {
             Integer iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
             Integer iPage = Integer.parseInt(oRequest.getParameter("page"));
+            HashMap<String, String> hmOrder = ParameterCook.getOrderParams(oRequest.getParameter("order"));
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
             FacturaDao oFacturaDao = new FacturaDao(oConnection, ob);
-            ArrayList<FacturaBean> alFacturaBean = oFacturaDao.getpage(iRpp, iPage);
-            Gson oGson = new Gson();
+            ArrayList<FacturaBean> alFacturaBean = oFacturaDao.getpage(iRpp, iPage, hmOrder, 2);
+            Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
             oReplyBean = new ReplyBean(200, oGson.toJson(alFacturaBean));
         } catch (Exception ex) {
             oReplyBean = new ReplyBean(500,

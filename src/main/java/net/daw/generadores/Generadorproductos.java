@@ -11,12 +11,12 @@ public class Generadorproductos {
         String[] arrayFoto = {"foto_1", "foto_2", "foto_3", "foto_4", "foto_5", "foto_6", "foto_7", "foto_8", "foto_9", "foto_10"};
         Integer[] arrayId_tipoproducto = {1, 2, 3, 4, 5};
 
-        int random_1 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
-        int random_2 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
-        int random_3 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
-        int random_4 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
-        int random_5 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
-        int random_6 = (int)(Math.random() * ((4 - 0) + 1)) + 0;
+        int random_1 = (int)(Math.random() * ((8 - 0) + 1)) + 0;
+        int random_2 = (int)(Math.random() * ((8 - 0) + 1)) + 0;
+        int random_3 = (int)(Math.random() * ((8 - 0) + 1)) + 0;
+        int random_4 = (int)(Math.random() * ((8 - 0) + 1)) + 0;
+        int random_5 = (int)(Math.random() * ((8 - 0) + 1)) + 0;
+        int random_6 = (int)(Math.random() * ((3 - 0) + 1)) + 0;
 
         ProductoBean oProductoBean = new ProductoBean();
         

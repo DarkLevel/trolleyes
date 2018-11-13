@@ -8,9 +8,9 @@ public class Generadorlineas {
         Integer[] arrayId_producto = {1, 2, 3, 4, 5};
         Integer[] arrayId_factura = {1, 2, 3, 4, 5};
 
-        int random_1 = (int)(Math.random() * ((9 - 0) + 1)) + 0;
-        int random_2 = (int)(Math.random() * ((4 - 0) + 1)) + 0;
-        int random_3 = (int)(Math.random() * ((4 - 0) + 1)) + 0;
+        int random_1 = (int)(Math.random() * ((8 - 0) + 1)) + 0;
+        int random_2 = (int)(Math.random() * ((8 - 0) + 1)) + 0;
+        int random_3 = (int)(Math.random() * ((3 - 0) + 1)) + 0;
 
         LineaBean oLineaBean = new LineaBean();
         

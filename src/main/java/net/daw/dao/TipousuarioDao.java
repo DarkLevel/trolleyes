@@ -92,12 +92,14 @@ public class TipousuarioDao {
     }
 
     public TipousuarioBean create(TipousuarioBean oTipousuarioBean) throws Exception {
-        String strSQL = "INSERT INTO " + ob + " (`id`, `desc`) VALUES (NULL, ?); ";
+        String strSQL = "INSERT INTO " + ob;
+        strSQL += "(" + oTipousuarioBean.getColumns() + ")";
+        strSQL += " VALUES ";
+        strSQL += "(" + oTipousuarioBean.getValues() + ")";
         ResultSet oResultSet = null;
         PreparedStatement oPreparedStatement = null;
         try {
             oPreparedStatement = oConnection.prepareStatement(strSQL);
-            oPreparedStatement.setString(1, oTipousuarioBean.getDesc());
             oPreparedStatement.executeUpdate();
             oResultSet = oPreparedStatement.getGeneratedKeys();
             if (oResultSet.next()) {
@@ -120,12 +122,11 @@ public class TipousuarioDao {
 
     public int update(TipousuarioBean oTipousuarioBean) throws Exception {
         int iResult = 0;
-        String strSQL = "UPDATE " + ob + " SET " + ob + ".desc=? WHERE " + ob + ".id=?;";
+        String strSQL = "UPDATE " + ob + " SET ";
+        strSQL += oTipousuarioBean.getPairs();
         PreparedStatement oPreparedStatement = null;
         try {
             oPreparedStatement = oConnection.prepareStatement(strSQL);
-            oPreparedStatement.setString(1, oTipousuarioBean.getDesc());
-            oPreparedStatement.setInt(2, oTipousuarioBean.getId());
             iResult = oPreparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new Exception("Error en Dao update de " + ob, e);

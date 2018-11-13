@@ -3,6 +3,7 @@ package net.daw.bean;
 import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import net.daw.helper.EncodingHelper;
 
 public class TipousuarioBean {
 
@@ -28,8 +29,31 @@ public class TipousuarioBean {
     }
 
     public TipousuarioBean fill(ResultSet oResultSet, Connection oConnection, Integer expand) throws Exception {
-		this.setId(oResultSet.getInt("id"));
-		this.setDesc(oResultSet.getString("desc"));
-		return this;
-	}
+        this.setId(oResultSet.getInt("id"));
+        this.setDesc(oResultSet.getString("desc"));
+        return this;
+    }
+
+    public String getColumns() {
+        String strColumns = "";
+        strColumns += "id,";
+        strColumns += "desc";
+        return strColumns;
+    }
+    
+    public String getValues() {
+        String strColumns = "";
+        strColumns += "null,";
+        strColumns += EncodingHelper.quotate(desc);
+        return strColumns;
+    }
+    
+    public String getPairs() {
+        String strPairs = "";
+        strPairs += "id=" + id + ",";
+        strPairs += "desc=" + EncodingHelper.quotate(desc) + ",";
+        strPairs += " WHERE id = ?";
+        return strPairs;
+    }
+    
 }
