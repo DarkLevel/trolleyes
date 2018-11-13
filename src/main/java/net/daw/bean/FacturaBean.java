@@ -108,7 +108,7 @@ public class FacturaBean {
         strPairs += "fecha=" + fecha + ",";
         strPairs += "iva=" + iva + ",";
         strPairs += "id_usuario=" + id_usuario;
-        strPairs += " WHERE id = ?";
+        strPairs += " WHERE id = " + id;
         return strPairs;
     }
 

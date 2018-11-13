@@ -51,8 +51,8 @@ public class TipousuarioBean {
     public String getPairs() {
         String strPairs = "";
         strPairs += "id=" + id + ",";
-        strPairs += "desc=" + EncodingHelper.quotate(desc) + ",";
-        strPairs += " WHERE id = ?";
+        strPairs += "tipousuario.desc=" + EncodingHelper.quotate(desc);
+        strPairs += " WHERE id = " + id;
         return strPairs;
     }
     

@@ -142,12 +142,12 @@ public class ProductoBean {
         String strPairs = "";
         strPairs += "id=" + id + ",";
         strPairs += "codigo=" + EncodingHelper.quotate(codigo) + ",";
-        strPairs += "desc=" + EncodingHelper.quotate(desc) + ",";
+        strPairs += "producto.desc=" + EncodingHelper.quotate(desc) + ",";
         strPairs += "existencias=" + existencias + ",";
         strPairs += "precio=" + precio + ",";
         strPairs += "foto=" + EncodingHelper.quotate(foto) + ",";
         strPairs += "id_tipoProducto=" + id_tipoProducto;
-        strPairs += " WHERE id = ?";
+        strPairs += " WHERE id = " + id;
         return strPairs;
     }
 

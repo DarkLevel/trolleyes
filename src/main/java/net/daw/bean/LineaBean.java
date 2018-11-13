@@ -117,7 +117,7 @@ public class LineaBean {
         strPairs += "cantidad=" + cantidad + ",";
         strPairs += "id_producto=" + id_producto + ",";
         strPairs += "id_factura=" + id_factura;
-        strPairs += " WHERE id = ?";
+        strPairs += " WHERE id = " + id;
         return strPairs;
     }
     
