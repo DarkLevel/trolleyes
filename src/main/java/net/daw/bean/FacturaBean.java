@@ -8,8 +8,10 @@ package net.daw.bean;
 import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import net.daw.dao.UsuarioDao;
+import net.daw.helper.EncodingHelper;
 
 /**
  *
@@ -27,6 +29,7 @@ public class FacturaBean {
     private int id_usuario;
     @Expose(deserialize = false)
     private UsuarioBean obj_usuario;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public UsuarioBean getObj_usuario() {
         return obj_usuario;
@@ -93,7 +96,7 @@ public class FacturaBean {
     public String getValues() {
         String strColumns = "";
         strColumns += "null,";
-        strColumns += fecha + ",";
+        strColumns += EncodingHelper.quotate(dateFormat.format(fecha)) + ",";
         strColumns += iva + ",";
         strColumns += id_usuario;
         return strColumns;
