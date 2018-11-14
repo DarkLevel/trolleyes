@@ -38,16 +38,17 @@ public class UsuarioService {
         ob = oRequest.getParameter("ob");
     }
 
-    protected Boolean checkPermission(String ob, String strMethodName) {
-        UsuarioBean oUsuarioBean = (UsuarioBean) oRequest.getSession().getAttribute("user");
-        return oUsuarioBean != null;
+    protected Boolean checkPermission(String strMethodName) {
+//        UsuarioBean oUsuarioBean = (UsuarioBean) oRequest.getSession().getAttribute("user");
+//        return oUsuarioBean != null;
+        return true;
     }
 
     public ReplyBean get() throws Exception {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;
-        if (this.checkPermission(ob, "get")) {
+        if (this.checkPermission("get")) {
             try {
                 Integer id = Integer.parseInt(oRequest.getParameter("id"));
                 oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
@@ -73,7 +74,7 @@ public class UsuarioService {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;
-        if (this.checkPermission(ob, "remove")) {
+        if (this.checkPermission("remove")) {
             try {
                 Integer id = Integer.parseInt(oRequest.getParameter("id"));
                 oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
@@ -97,7 +98,7 @@ public class UsuarioService {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;
-        if (this.checkPermission(ob, "getcount")) {
+        if (this.checkPermission("getcount")) {
             try {
                 oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
                 oConnection = oConnectionPool.newConnection();
@@ -122,7 +123,7 @@ public class UsuarioService {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;
-        if (this.checkPermission(ob, "create")) {
+        if (this.checkPermission("create")) {
             try {
                 String strJsonFromClient = oRequest.getParameter("json");
                 Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
@@ -149,7 +150,7 @@ public class UsuarioService {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;
-        if (this.checkPermission(ob, "update")) {
+        if (this.checkPermission("update")) {
             try {
                 String strJsonFromClient = oRequest.getParameter("json");
                 Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
@@ -175,7 +176,7 @@ public class UsuarioService {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;
-        if (this.checkPermission(ob, "getpage")) {
+        if (this.checkPermission("getpage")) {
             try {
                 Integer iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
                 Integer iPage = Integer.parseInt(oRequest.getParameter("page"));
@@ -203,7 +204,7 @@ public class UsuarioService {
         ReplyBean oReplyBean = null;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;
-        if (this.checkPermission(ob, "filldatabase")) {
+        if (this.checkPermission("filldatabase")) {
             try {
                 Integer cantidadUsuarios = Integer.parseInt(oRequest.getParameter("cant"));
                 oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);

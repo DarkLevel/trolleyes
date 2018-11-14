@@ -154,6 +154,7 @@ public class UsuarioBean {
     public String getPairs() {
         String strPairs = "";
         strPairs += "usuario.id=" + id + ",";
+        strPairs += "usuario.dni=" + EncodingHelper.quotate(dni) + ",";
         strPairs += "usuario.nombre=" + EncodingHelper.quotate(nombre) + ",";
         strPairs += "usuario.ape1=" + EncodingHelper.quotate(ape1) + ",";
         strPairs += "usuario.ape2=" + EncodingHelper.quotate(ape2) + ",";
