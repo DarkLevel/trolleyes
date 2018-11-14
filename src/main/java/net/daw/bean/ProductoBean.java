@@ -116,13 +116,13 @@ public class ProductoBean {
     
     public String getColumns() {
         String strColumns = "";
-        strColumns += "id,";
-        strColumns += "codigo,";
-        strColumns += "desc,";
-        strColumns += "existencias,";
-        strColumns += "precio,";
-        strColumns += "foto,";
-        strColumns += "id_tipoProducto";
+        strColumns += "producto.id,";
+        strColumns += "producto.codigo,";
+        strColumns += "producto.desc,";
+        strColumns += "producto.existencias,";
+        strColumns += "producto.precio,";
+        strColumns += "producto.foto,";
+        strColumns += "producto.id_tipoProducto";
         return strColumns;
     }
 

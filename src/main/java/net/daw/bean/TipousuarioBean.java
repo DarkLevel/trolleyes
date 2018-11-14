@@ -36,8 +36,8 @@ public class TipousuarioBean {
 
     public String getColumns() {
         String strColumns = "";
-        strColumns += "id,";
-        strColumns += "desc";
+        strColumns += "tipousuario.id,";
+        strColumns += "tipousuario.desc";
         return strColumns;
     }
     

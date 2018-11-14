@@ -86,10 +86,10 @@ public class FacturaBean {
     
     public String getColumns() {
         String strColumns = "";
-        strColumns += "id,";
-        strColumns += "fecha,";
-        strColumns += "iva,";
-        strColumns += "id_usuario";
+        strColumns += "factura.id,";
+        strColumns += "factura.fecha,";
+        strColumns += "factura.iva,";
+        strColumns += "factura.id_usuario";
         return strColumns;
     }
 

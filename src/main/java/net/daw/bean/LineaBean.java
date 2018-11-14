@@ -95,10 +95,10 @@ public class LineaBean {
 
     public String getColumns() {
         String strColumns = "";
-        strColumns += "id,";
-        strColumns += "cantidad,";
-        strColumns += "id_producto";
-        strColumns += "id_factura";
+        strColumns += "linea.linea.id,";
+        strColumns += "linea.cantidad,";
+        strColumns += "linea.id_producto";
+        strColumns += "linea.id_factura";
         return strColumns;
     }
 

@@ -127,14 +127,14 @@ public class UsuarioBean {
 
     public String getColumns() {
         String strColumns = "";
-        strColumns += "id,";
-        strColumns += "dni,";
-        strColumns += "nombre,";
-        strColumns += "ape1,";
-        strColumns += "ape2,";
-        strColumns += "login,";
-        strColumns += "pass,";
-        strColumns += "id_tipoUsuario";
+        strColumns += "usuario.id,";
+        strColumns += "usuario.usuario.dni,";
+        strColumns += "usuario.nombre,";
+        strColumns += "usuario.ape1,";
+        strColumns += "usuario.ape2,";
+        strColumns += "usuario.login,";
+        strColumns += "usuario.pass,";
+        strColumns += "usuario.id_tipoUsuario";
         return strColumns;
     }
 

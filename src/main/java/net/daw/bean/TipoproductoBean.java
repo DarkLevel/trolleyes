@@ -45,8 +45,8 @@ public class TipoproductoBean {
 
     public String getColumns() {
         String strColumns = "";
-        strColumns += "id,";
-        strColumns += "desc";
+        strColumns += "tipoproducto.id,";
+        strColumns += "tipoproducto.desc";
         return strColumns;
     }
 
