@@ -113,10 +113,10 @@ public class LineaBean {
 
     public String getPairs() {
         String strPairs = "";
-        strPairs += "id=" + id + ",";
-        strPairs += "cantidad=" + cantidad + ",";
-        strPairs += "id_producto=" + id_producto + ",";
-        strPairs += "id_factura=" + id_factura;
+        strPairs += "linea.id=" + id + ",";
+        strPairs += "linea.cantidad=" + cantidad + ",";
+        strPairs += "linea.id_producto=" + id_producto + ",";
+        strPairs += "linea.id_factura=" + id_factura;
         strPairs += " WHERE id = " + id;
         return strPairs;
     }

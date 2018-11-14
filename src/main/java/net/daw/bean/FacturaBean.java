@@ -104,10 +104,10 @@ public class FacturaBean {
 
     public String getPairs() {
         String strPairs = "";
-        strPairs += "id=" + id + ",";
-        strPairs += "fecha=" + fecha + ",";
-        strPairs += "iva=" + iva + ",";
-        strPairs += "id_usuario=" + id_usuario;
+        strPairs += "factura.id=" + id + ",";
+        strPairs += "factura.fecha=" + fecha + ",";
+        strPairs += "factura.iva=" + iva + ",";
+        strPairs += "factura.id_usuario=" + id_usuario;
         strPairs += " WHERE id = " + id;
         return strPairs;
     }

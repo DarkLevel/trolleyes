@@ -153,12 +153,12 @@ public class UsuarioBean {
 
     public String getPairs() {
         String strPairs = "";
-        strPairs += "id=" + id + ",";
-        strPairs += "nombre=" + EncodingHelper.quotate(nombre) + ",";
-        strPairs += "ape1=" + EncodingHelper.quotate(ape1) + ",";
-        strPairs += "ape2=" + EncodingHelper.quotate(ape2) + ",";
-        strPairs += "login=" + EncodingHelper.quotate(login) + ",";
-        strPairs += "id_tipoUsuario=" + id_tipoUsuario;
+        strPairs += "usuario.id=" + id + ",";
+        strPairs += "usuario.nombre=" + EncodingHelper.quotate(nombre) + ",";
+        strPairs += "usuario.ape1=" + EncodingHelper.quotate(ape1) + ",";
+        strPairs += "usuario.ape2=" + EncodingHelper.quotate(ape2) + ",";
+        strPairs += "usuario.login=" + EncodingHelper.quotate(login) + ",";
+        strPairs += "usuario.id_tipoUsuario=" + id_tipoUsuario;
         strPairs += " WHERE id = " + id;
         return strPairs;
     }
