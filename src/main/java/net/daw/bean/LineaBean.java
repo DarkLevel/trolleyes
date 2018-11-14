@@ -97,7 +97,7 @@ public class LineaBean {
         String strColumns = "";
         strColumns += "linea.linea.id,";
         strColumns += "linea.cantidad,";
-        strColumns += "linea.id_producto";
+        strColumns += "linea.id_producto,";
         strColumns += "linea.id_factura";
         return strColumns;
     }

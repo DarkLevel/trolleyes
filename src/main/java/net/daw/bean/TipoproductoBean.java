@@ -60,7 +60,7 @@ public class TipoproductoBean {
     public String getPairs() {
         String strPairs = "";
         strPairs += "tipoproducto.id=" + id + ",";
-        strPairs += "tipoproducto.desc=" + EncodingHelper.quotate(desc) + ",";
+        strPairs += "tipoproducto.desc=" + EncodingHelper.quotate(desc);
         strPairs += " WHERE id = " + id;
         return strPairs;
     }
