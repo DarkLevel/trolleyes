@@ -138,8 +138,7 @@ public class ProductoService {
             oConnection = oConnectionPool.newConnection();
             ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
             iRes = oProductoDao.update(oProductoBean);
-            oReplyBean.setStatus(200);
-            oReplyBean.setJson(Integer.toString(iRes));
+            oReplyBean = new ReplyBean(200, Integer.toString(iRes));
         } catch (Exception ex) {
             oReplyBean = new ReplyBean(500,
                     "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
