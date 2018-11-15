@@ -253,7 +253,7 @@ public class UsuarioService {
 
     public ReplyBean logout() throws Exception {
         oRequest.getSession().invalidate();
-        return new ReplyBean(200, "OK");
+        return new ReplyBean(200, EncodingHelper.quotate("OK"));
     }
 
     public ReplyBean check() throws Exception {
