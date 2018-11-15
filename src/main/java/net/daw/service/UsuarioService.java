@@ -247,6 +247,7 @@ public class UsuarioService {
         } else {
             oReplyBean = new ReplyBean(401, "Bad Authentication");
         }
+        oConnectionPool.disposeConnection();
         return oReplyBean;
     }
 
