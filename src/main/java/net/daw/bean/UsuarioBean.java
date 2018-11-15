@@ -128,7 +128,7 @@ public class UsuarioBean {
     public String getColumns() {
         String strColumns = "";
         strColumns += "usuario.id,";
-        strColumns += "usuario.usuario.dni,";
+        strColumns += "usuario.dni,";
         strColumns += "usuario.nombre,";
         strColumns += "usuario.ape1,";
         strColumns += "usuario.ape2,";
