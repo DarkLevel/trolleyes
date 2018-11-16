@@ -234,20 +234,26 @@ public class UsuarioService {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;
-        String strLogin = oRequest.getParameter("user");
-        String strPassword = oRequest.getParameter("pass");
-        oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
-        oConnection = oConnectionPool.newConnection();
-        UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, ob);
-        UsuarioBean oUsuarioBean = oUsuarioDao.login(strLogin, strPassword);
-        if (oUsuarioBean != null) {
-            oRequest.getSession().setAttribute("user", oUsuarioBean);
-            Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
-            oReplyBean = new ReplyBean(200, oGson.toJson(oUsuarioBean));
-        } else {
-            oReplyBean = new ReplyBean(401, "Bad Authentication");
+        try {
+            String strLogin = oRequest.getParameter("user");
+            String strPassword = oRequest.getParameter("pass");
+            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+            oConnection = oConnectionPool.newConnection();
+            UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, ob);
+            UsuarioBean oUsuarioBean = oUsuarioDao.login(strLogin, strPassword);
+            if (oUsuarioBean != null) {
+                oRequest.getSession().setAttribute("user", oUsuarioBean);
+                Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
+                oReplyBean = new ReplyBean(200, oGson.toJson(oUsuarioBean));
+            } else {
+                oReplyBean = new ReplyBean(401, "Bad Authentication");
+            }
+        } catch (Exception ex) {
+            oReplyBean = new ReplyBean(500,
+                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+        } finally {
+            oConnectionPool.disposeConnection();
         }
-        oConnectionPool.disposeConnection();
         return oReplyBean;
     }
 
