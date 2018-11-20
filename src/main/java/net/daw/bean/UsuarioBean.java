@@ -8,6 +8,7 @@ package net.daw.bean;
 import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import net.daw.dao.FacturaDao;
 import net.daw.dao.TipousuarioDao;
 import net.daw.helper.EncodingHelper;
 
@@ -35,6 +36,16 @@ public class UsuarioBean {
     private int id_tipoUsuario;
     @Expose(deserialize = false)
     private TipousuarioBean obj_tipoUsuario;
+    @Expose
+    private int link_factura;
+
+    public int getLink_factura() {
+        return link_factura;
+    }
+
+    public void setLink_factura(int link_factura) {
+        this.link_factura = link_factura;
+    }
 
     public TipousuarioBean getObj_tipoUsuario() {
         return obj_tipoUsuario;
@@ -116,6 +127,7 @@ public class UsuarioBean {
         this.setApe2(oResultSet.getString("ape2"));
         this.setLogin(oResultSet.getString("login"));
         this.setPass(oResultSet.getString("pass"));
+        this.setLink_factura((new FacturaDao(oConnection, "factura")).getcountX(oResultSet.getInt("id")));
         if (expand > 0) {
             TipousuarioDao otipousuarioDao = new TipousuarioDao(oConnection, "tipousuario");
             this.setObj_tipoUsuario(otipousuarioDao.get(oResultSet.getInt("id_tipoUsuario"), expand - 1));

@@ -107,6 +107,12 @@ public class ServiceFactory {
                     case "getpage":
                         oReplyBean = oFacturaService.getpage();
                         break;
+                    case "getcountX":
+                        oReplyBean = oFacturaService.getcountX();
+                        break;
+                    case "getpageX":
+                        oReplyBean = oFacturaService.getpageX();
+                        break;
                     case "filldatabase":
                         oReplyBean = oFacturaService.filldatabase();
                         break;
@@ -135,6 +141,12 @@ public class ServiceFactory {
                         break;
                     case "getpage":
                         oReplyBean = oLineaService.getpage();
+                        break;
+                    case "getcountX":
+                        oReplyBean = oLineaService.getcountX();
+                        break;
+                    case "getpageX":
+                        oReplyBean = oLineaService.getpageX();
                         break;
                     case "filldatabase":
                         oReplyBean = oLineaService.filldatabase();

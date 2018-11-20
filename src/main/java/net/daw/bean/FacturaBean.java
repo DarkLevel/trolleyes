@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import net.daw.dao.LineaDao;
 import net.daw.dao.UsuarioDao;
 import net.daw.helper.EncodingHelper;
 
@@ -30,6 +31,16 @@ public class FacturaBean {
     @Expose(deserialize = false)
     private UsuarioBean obj_usuario;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    @Expose
+    private int link_linea;
+
+    public int getLink_linea() {
+        return link_linea;
+    }
+
+    public void setLink_linea(int link_linea) {
+        this.link_linea = link_linea;
+    }
 
     public UsuarioBean getObj_usuario() {
         return obj_usuario;
@@ -75,6 +86,7 @@ public class FacturaBean {
         this.setId(oResultSet.getInt("id"));
         this.setFecha(oResultSet.getDate("fecha"));
         this.setIva(oResultSet.getDouble("iva"));
+        this.setLink_linea((new LineaDao(oConnection, "linea")).getcountX(oResultSet.getInt("id")));
         if (expand > 0) {
             UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, "usuario");
             this.setObj_usuario(oUsuarioDao.get(oResultSet.getInt("id_usuario"), expand - 1));
