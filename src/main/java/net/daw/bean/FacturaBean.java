@@ -30,9 +30,10 @@ public class FacturaBean {
     private int id_usuario;
     @Expose(deserialize = false)
     private UsuarioBean obj_usuario;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @Expose
     private int link_linea;
+    
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public int getLink_linea() {
         return link_linea;
@@ -117,7 +118,7 @@ public class FacturaBean {
     public String getPairs() {
         String strPairs = "";
         strPairs += "factura.id=" + id + ",";
-        strPairs += "factura.fecha=" + fecha + ",";
+        strPairs += "factura.fecha=" + dateFormat.format(fecha) + ",";
         strPairs += "factura.iva=" + iva + ",";
         strPairs += "factura.id_usuario=" + id_usuario;
         strPairs += " WHERE id = " + id;
