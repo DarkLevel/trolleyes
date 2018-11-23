@@ -110,6 +110,16 @@ public class FacturaBean {
     }
 
     public String getValues() {
+        //Getting the default zone id
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+
+        //Converting the date to Instant
+        Instant instant = fecha.toInstant();
+
+        //Converting the Date to LocalDate
+        LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
+        System.out.println("Local Date is: " + localDate);
+        
         String strColumns = "";
         strColumns += "null,";
         strColumns += EncodingHelper.quotate(dateFormat.format(fecha)) + ",";
@@ -127,6 +137,7 @@ public class FacturaBean {
 
         //Converting the Date to LocalDate
         LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
+        System.out.println("Local Date is: " + localDate);
         
         System.out.println("Local Date is: " + localDate);
         String strPairs = "";
