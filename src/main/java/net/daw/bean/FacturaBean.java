@@ -118,11 +118,10 @@ public class FacturaBean {
 
         //Converting the Date to LocalDate
         LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
-        System.out.println("Local Date is: " + localDate);
         
         String strColumns = "";
         strColumns += "null,";
-        strColumns += EncodingHelper.quotate(dateFormat.format(fecha)) + ",";
+        strColumns += EncodingHelper.quotate(localDate.toString()) + ",";
         strColumns += iva + ",";
         strColumns += id_usuario;
         return strColumns;
@@ -137,12 +136,10 @@ public class FacturaBean {
 
         //Converting the Date to LocalDate
         LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
-        System.out.println("Local Date is: " + localDate);
-        
-        System.out.println("Local Date is: " + localDate);
+
         String strPairs = "";
         strPairs += "factura.id=" + id + ",";
-        strPairs += "factura.fecha=" + dateFormat.format(fecha) + ",";
+        strPairs += "factura.fecha=" + EncodingHelper.quotate(localDate.toString()) + ",";
         strPairs += "factura.iva=" + iva + ",";
         strPairs += "factura.id_usuario=" + id_usuario;
         strPairs += " WHERE id = " + id;
