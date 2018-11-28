@@ -65,9 +65,7 @@ public class UsuarioService {
         } else {
             oReplyBean = new ReplyBean(401, "Unauthorized");
         }
-
         return oReplyBean;
-
     }
 
     public ReplyBean remove() throws Exception {
@@ -243,6 +241,7 @@ public class UsuarioService {
             UsuarioBean oUsuarioBean = oUsuarioDao.login(strLogin, strPassword);
             if (oUsuarioBean != null) {
                 oRequest.getSession().setAttribute("user", oUsuarioBean);
+                oRequest.getSession().setAttribute("carrito", "");
                 Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
                 oReplyBean = new ReplyBean(200, oGson.toJson(oUsuarioBean));
             } else {
