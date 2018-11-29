@@ -8,8 +8,8 @@ package net.daw.bean;
 import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -86,7 +86,9 @@ public class FacturaBean {
     
     public FacturaBean fill(ResultSet oResultSet, Connection oConnection, Integer expand) throws Exception {
         this.setId(oResultSet.getInt("id"));
-        this.setFecha(oResultSet.getDate("fecha"));
+        Timestamp timestamp = oResultSet.getTimestamp("fecha");
+        Date date = new java.util.Date(timestamp.getTime());
+        this.setFecha(date);
         this.setIva(oResultSet.getDouble("iva"));
         this.setLink_linea((new LineaDao(oConnection, "linea")).getcountX(oResultSet.getInt("id")));
         if (expand > 0) {
