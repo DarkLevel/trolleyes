@@ -39,9 +39,8 @@ public class UsuarioService {
     }
 
     protected Boolean checkPermission(String strMethodName) {
-//        UsuarioBean oUsuarioBean = (UsuarioBean) oRequest.getSession().getAttribute("user");
-//        return oUsuarioBean != null;
-        return true;
+        UsuarioBean oUsuarioBean = (UsuarioBean) oRequest.getSession().getAttribute("user");
+        return oUsuarioBean != null;
     }
 
     public ReplyBean get() throws Exception {

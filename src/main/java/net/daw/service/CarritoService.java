@@ -190,15 +190,12 @@ public class CarritoService implements Serializable {
             Connection oConnection = oConnectionPool.newConnection();
             try {
                 oConnection.setAutoCommit(false);
-
                 UsuarioBean oUsuarioBean = (UsuarioBean) oRequest.getSession().getAttribute("user");
                 ArrayList<CarritoBean> alCarrito = (ArrayList<CarritoBean>) oRequest.getSession().getAttribute("carrito");
-
                 if (alCarrito == null || alCarrito.isEmpty()) {
                     return new ReplyBean(400, "No existen productos.");
                 }
-
-                //Crear obj_factura (preguntar sobre iva y fecha)
+                //Crear obj_factura (preguntar sobre iva en factura y fecha sin hora)
                 FacturaBean oFacturaBean = new FacturaBean();
                 FacturaDao oFacturaDao = new FacturaDao(oConnection, "factura");
                 Date fecha = new Date();
@@ -206,16 +203,21 @@ public class CarritoService implements Serializable {
                 oFacturaBean.setIva(21);
                 oFacturaBean.setId_usuario(oUsuarioBean.getId());
                 oFacturaBean = oFacturaDao.create(oFacturaBean);
-
-                //Crear Líneas
+                //Crear Líneas (preguntar sobre id_tipoProducto en productoBean)
                 LineaBean oLineaBean = new LineaBean();
-                LineaDao oLineaDao = new LineaDao(oConnection, ob);
+                LineaDao oLineaDao = new LineaDao(oConnection, "linea");
+                ProductoBean oProductoBean = new ProductoBean();
+                ProductoDao oProductoDao = new ProductoDao(oConnection, "producto");
                 for (CarritoBean o : alCarrito) {
                     oLineaBean.setId_factura(oFacturaBean.getId());
                     if (o.getCantidad() <= o.getObj_producto().getExistencias()) {
                         oLineaBean.setCantidad(o.getCantidad());
+                        oProductoBean = oProductoDao.get(o.getObj_producto().getId(), 0);
+                        oProductoBean.setExistencias(oProductoBean.getExistencias()-o.getCantidad());
+                        oProductoDao.update(oProductoBean);
                     } else {
                         oConnection.rollback();
+                        return new ReplyBean(400, "Se ha seleccionado una cantidad superior a las existencias del producto " + o.getObj_producto().getDesc());
                     }
                     oLineaBean.setId_producto(o.getObj_producto().getId());
                     oLineaDao.create(oLineaBean);

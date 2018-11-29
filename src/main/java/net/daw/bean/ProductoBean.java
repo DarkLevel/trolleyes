@@ -108,7 +108,7 @@ public class ProductoBean {
         if (expand > 0) {
             TipoproductoDao oTipoproductoDao = new TipoproductoDao(oConnection, "tipoproducto");
             this.setObj_tipoProducto(oTipoproductoDao.get(oResultSet.getInt("id_tipoProducto"), expand - 1));
-        } else {
+        } else{
             this.setId_tipoProducto(oResultSet.getInt("id_tipoProducto"));
         }
         return this;
