@@ -3,6 +3,9 @@ package net.daw.service;
 import com.google.gson.Gson;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
@@ -195,10 +198,12 @@ public class CarritoService implements Serializable {
                 if (alCarrito == null || alCarrito.isEmpty()) {
                     return new ReplyBean(400, "No existen productos.");
                 }
-                //Crear obj_factura (preguntar sobre iva en factura y fecha sin hora)
+                //Crear obj_factura (preguntar sobre iva en factura y hora de la fecha y como enseñarla en plist)
                 FacturaBean oFacturaBean = new FacturaBean();
                 FacturaDao oFacturaDao = new FacturaDao(oConnection, "factura");
-                Date fecha = new Date();
+                LocalDateTime fechaHora = LocalDateTime.now();
+                Instant instant = fechaHora.toInstant(ZoneOffset.ofHours(+1));
+                Date fecha = Date.from(instant);
                 oFacturaBean.setFecha(fecha);
                 oFacturaBean.setIva(21);
                 oFacturaBean.setId_usuario(oUsuarioBean.getId());

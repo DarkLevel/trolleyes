@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import net.daw.dao.LineaDao;
@@ -114,11 +115,11 @@ public class FacturaBean {
         Instant instant = fecha.toInstant();
 
         //Converting the Date to LocalDate
-        LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
+        LocalDateTime localDateTime = instant.atZone(defaultZoneId).toLocalDateTime();
         
         String strColumns = "";
         strColumns += "null,";
-        strColumns += EncodingHelper.quotate(localDate.toString()) + ",";
+        strColumns += EncodingHelper.quotate(localDateTime.toString()) + ",";
         strColumns += iva + ",";
         strColumns += id_usuario;
         return strColumns;
@@ -132,11 +133,11 @@ public class FacturaBean {
         Instant instant = fecha.toInstant();
 
         //Converting the Date to LocalDate
-        LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
+        LocalDateTime localDateTime = instant.atZone(defaultZoneId).toLocalDateTime();
 
         String strPairs = "";
         strPairs += "factura.id=" + id + ",";
-        strPairs += "factura.fecha=" + EncodingHelper.quotate(localDate.toString()) + ",";
+        strPairs += "factura.fecha=" + EncodingHelper.quotate(localDateTime.toString()) + ",";
         strPairs += "factura.iva=" + iva + ",";
         strPairs += "factura.id_usuario=" + id_usuario;
         strPairs += " WHERE id = " + id;
