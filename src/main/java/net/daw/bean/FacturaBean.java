@@ -8,7 +8,6 @@ package net.daw.bean;
 import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -35,8 +34,6 @@ public class FacturaBean {
     private UsuarioBean obj_usuario;
     @Expose
     private int link_linea;
-    
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public int getLink_linea() {
         return link_linea;

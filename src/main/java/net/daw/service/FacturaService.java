@@ -107,7 +107,7 @@ public class FacturaService {
         try {
             String strJsonFromClient = oRequest.getParameter("json");
             Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
-            FacturaBean oFacturaBean = new FacturaBean();
+            FacturaBean oFacturaBean;
             oFacturaBean = oGson.fromJson(strJsonFromClient, FacturaBean.class);
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
