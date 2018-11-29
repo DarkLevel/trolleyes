@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import net.daw.bean.CarritoBean;
 import net.daw.bean.ReplyBean;
 import net.daw.bean.UsuarioBean;
 import net.daw.connection.publicinterface.ConnectionInterface;
@@ -241,7 +242,6 @@ public class UsuarioService {
             UsuarioBean oUsuarioBean = oUsuarioDao.login(strLogin, strPassword);
             if (oUsuarioBean != null) {
                 oRequest.getSession().setAttribute("user", oUsuarioBean);
-                oRequest.getSession().setAttribute("carrito", "");
                 Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
                 oReplyBean = new ReplyBean(200, oGson.toJson(oUsuarioBean));
             } else {

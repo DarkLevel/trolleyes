@@ -224,6 +224,9 @@ public class ServiceFactory {
                     case "reduce":
                         oReplyBean = oCarritoService.reduce();
                         break;
+                    case "remove":
+                        oReplyBean = oCarritoService.remove();
+                        break;
                     case "empty":
                         oReplyBean = oCarritoService.empty();
                         break;
