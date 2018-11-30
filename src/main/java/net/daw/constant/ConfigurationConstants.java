@@ -4,12 +4,12 @@ package net.daw.constant;
 
 public class ConfigurationConstants {
 
-	public static enum EnvironmentConstans {
+	public static enum EnvironmentConstants {
 		Debug, Production
 	};
 
 
-	public static final EnvironmentConstans environment = EnvironmentConstans.Debug;
+	public static final EnvironmentConstants environment = EnvironmentConstants.Debug;
 
 
 
