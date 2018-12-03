@@ -179,7 +179,7 @@ public class ProductoDao {
         }
         return alProductoBean;
     }
-    
+
     public int getcountX(int id_tipoProducto) throws Exception {
         String strSQL = "SELECT COUNT(id) FROM " + ob + " WHERE id_tipoProducto=?";
         int res = 0;
@@ -204,9 +204,12 @@ public class ProductoDao {
         }
         return res;
     }
-    
+
     public ArrayList<ProductoBean> getpageX(int id_tipoProducto, int iRpp, int iPage, HashMap<String, String> hmOrder, Integer expand) throws Exception {
-        String strSQL = "SELECT * FROM " + ob + " WHERE id_tipoProducto=?";
+        String strSQL = "SELECT * FROM " + ob;
+        if (id_tipoProducto != 0) {
+            strSQL += " WHERE id_tipoProducto=?";
+        }
         strSQL += SqlBuilder.buildSqlOrder(hmOrder);
         ArrayList<ProductoBean> alProductoBean;
         if (iRpp > 0 && iRpp < 100000 && iPage > 0 && iPage < 100000000) {
@@ -215,7 +218,9 @@ public class ProductoDao {
             PreparedStatement oPreparedStatement = null;
             try {
                 oPreparedStatement = oConnection.prepareStatement(strSQL);
-                oPreparedStatement.setInt(1, id_tipoProducto);
+                if (id_tipoProducto != 0) {
+                    oPreparedStatement.setInt(1, id_tipoProducto);
+                }
                 oResultSet = oPreparedStatement.executeQuery();
                 alProductoBean = new ArrayList<>();
                 while (oResultSet.next()) {
@@ -238,7 +243,7 @@ public class ProductoDao {
         }
         return alProductoBean;
     }
-    
+
     public ArrayList<TipoproductoBean> filtrartipo() throws Exception {
         String strSQL = "SELECT DISTINCT(id_tipoProducto) FROM " + ob;
         ResultSet oResultSet = null;
@@ -265,5 +270,5 @@ public class ProductoDao {
         }
         return alTipoProductoBean;
     }
-    
+
 }

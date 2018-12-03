@@ -27,6 +27,7 @@ import net.daw.helper.ParameterCook;
  * @author a044531896d
  */
 public class ProductoService {
+
     HttpServletRequest oRequest;
     String ob = null;
 
@@ -169,7 +170,7 @@ public class ProductoService {
         }
         return oReplyBean;
     }
-    
+
     public ReplyBean getcountX() throws Exception {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
@@ -190,13 +191,18 @@ public class ProductoService {
         }
         return oReplyBean;
     }
-    
+
     public ReplyBean getpageX() throws Exception {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;
         try {
-            Integer id_tipoProducto = Integer.parseInt(oRequest.getParameter("id_tipoProducto"));
+            Integer id_tipoProducto;
+            if (oRequest.getParameter("id_tipoProducto") != null) {
+                id_tipoProducto = Integer.parseInt(oRequest.getParameter("id_tipoProducto"));
+            } else{
+                id_tipoProducto = 0;
+            }
             Integer iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
             Integer iPage = Integer.parseInt(oRequest.getParameter("page"));
             HashMap<String, String> hmOrder = ParameterCook.getOrderParams(oRequest.getParameter("order"));
@@ -214,7 +220,7 @@ public class ProductoService {
         }
         return oReplyBean;
     }
-    
+
     public ReplyBean filtrartipo() throws Exception {
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
@@ -247,7 +253,7 @@ public class ProductoService {
             ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
             ProductoBean oProductoBean;
             for (int i = 0; i < cantidadProductos; i++) {
-                oProductoBean = oGeneradorproductos.generar();         
+                oProductoBean = oGeneradorproductos.generar();
                 oProductoDao.create(oProductoBean);
             }
             oReplyBean = new ReplyBean(200, oGson.toJson("{\"productos creados\":" + cantidadProductos + "}"));
