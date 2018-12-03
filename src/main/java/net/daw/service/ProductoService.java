@@ -13,6 +13,7 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import net.daw.bean.ReplyBean;
 import net.daw.bean.ProductoBean;
+import net.daw.bean.TipoproductoBean;
 import net.daw.connection.publicinterface.ConnectionInterface;
 import net.daw.constant.ConnectionConstants;
 import net.daw.dao.ProductoDao;
@@ -208,6 +209,25 @@ public class ProductoService {
         } catch (Exception ex) {
             oReplyBean = new ReplyBean(500,
                     "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+        } finally {
+            oConnectionPool.disposeConnection();
+        }
+        return oReplyBean;
+    }
+    
+    public ReplyBean filtrartipo() throws Exception {
+        ReplyBean oReplyBean;
+        ConnectionInterface oConnectionPool = null;
+        Connection oConnection;
+        try {
+            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+            oConnection = oConnectionPool.newConnection();
+            ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
+            ArrayList<TipoproductoBean> alTipoProductoBean = oProductoDao.filtrartipo();
+            Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
+            oReplyBean = new ReplyBean(200, oGson.toJson(alTipoProductoBean));
+        } catch (Exception ex) {
+            oReplyBean = new ReplyBean(500, "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
         } finally {
             oConnectionPool.disposeConnection();
         }

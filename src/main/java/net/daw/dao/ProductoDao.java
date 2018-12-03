@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import net.daw.bean.ProductoBean;
+import net.daw.bean.TipoproductoBean;
 import net.daw.helper.SqlBuilder;
 
 /**
@@ -87,7 +88,7 @@ public class ProductoDao {
                 res = oResultSet.getInt(1);
             }
         } catch (SQLException e) {
-            throw new Exception("Error en Dao get de " + ob, e);
+            throw new Exception("Error en Dao getcount de " + ob, e);
         } finally {
             if (oResultSet != null) {
                 oResultSet.close();
@@ -192,7 +193,7 @@ public class ProductoDao {
                 res = oResultSet.getInt(1);
             }
         } catch (SQLException e) {
-            throw new Exception("Error en Dao get de " + ob, e);
+            throw new Exception("Error en Dao getcountX de " + ob, e);
         } finally {
             if (oResultSet != null) {
                 oResultSet.close();
@@ -216,14 +217,14 @@ public class ProductoDao {
                 oPreparedStatement = oConnection.prepareStatement(strSQL);
                 oPreparedStatement.setInt(1, id_tipoProducto);
                 oResultSet = oPreparedStatement.executeQuery();
-                alProductoBean = new ArrayList<ProductoBean>();
+                alProductoBean = new ArrayList<>();
                 while (oResultSet.next()) {
                     ProductoBean oProductoBean = new ProductoBean();
                     oProductoBean.fill(oResultSet, oConnection, expand);
                     alProductoBean.add(oProductoBean);
                 }
             } catch (SQLException e) {
-                throw new Exception("Error en Dao getpage de " + ob, e);
+                throw new Exception("Error en Dao getpageX de " + ob, e);
             } finally {
                 if (oResultSet != null) {
                     oResultSet.close();
@@ -236,6 +237,33 @@ public class ProductoDao {
             throw new Exception("Error en Dao getpage de " + ob);
         }
         return alProductoBean;
+    }
+    
+    public ArrayList<TipoproductoBean> filtrartipo() throws Exception {
+        String strSQL = "SELECT DISTINCT(id_tipoProducto) FROM " + ob;
+        ResultSet oResultSet = null;
+        PreparedStatement oPreparedStatement = null;
+        ArrayList<TipoproductoBean> alTipoProductoBean;
+        try {
+            oPreparedStatement = oConnection.prepareStatement(strSQL);
+            oResultSet = oPreparedStatement.executeQuery();
+            alTipoProductoBean = new ArrayList<>();
+            while (oResultSet.next()) {
+                TipoproductoDao oTipoproductoDao = new TipoproductoDao(oConnection, "tipoproducto");
+                TipoproductoBean oTipoproductoBean = oTipoproductoDao.get(oResultSet.getInt("id_tipoProducto"), 0);
+                alTipoProductoBean.add(oTipoproductoBean);
+            }
+        } catch (SQLException e) {
+            throw new Exception("Error en Dao filtrartipo de " + ob, e);
+        } finally {
+            if (oResultSet != null) {
+                oResultSet.close();
+            }
+            if (oPreparedStatement != null) {
+                oPreparedStatement.close();
+            }
+        }
+        return alTipoProductoBean;
     }
     
 }
