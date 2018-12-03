@@ -96,9 +96,7 @@ public class ProductoService {
         } finally {
             oConnectionPool.disposeConnection();
         }
-
         return oReplyBean;
-
     }
 
     public ReplyBean create() throws Exception {
@@ -168,9 +166,52 @@ public class ProductoService {
         } finally {
             oConnectionPool.disposeConnection();
         }
-
         return oReplyBean;
-
+    }
+    
+    public ReplyBean getcountX() throws Exception {
+        ReplyBean oReplyBean;
+        ConnectionInterface oConnectionPool = null;
+        Connection oConnection;
+        try {
+            Integer id_tipoProducto = Integer.parseInt(oRequest.getParameter("id_tipoProducto"));
+            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+            oConnection = oConnectionPool.newConnection();
+            ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
+            int registros = oProductoDao.getcountX(id_tipoProducto);
+            Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
+            oReplyBean = new ReplyBean(200, oGson.toJson(registros));
+        } catch (Exception ex) {
+            oReplyBean = new ReplyBean(500,
+                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+        } finally {
+            oConnectionPool.disposeConnection();
+        }
+        return oReplyBean;
+    }
+    
+    public ReplyBean getpageX() throws Exception {
+        ReplyBean oReplyBean;
+        ConnectionInterface oConnectionPool = null;
+        Connection oConnection;
+        try {
+            Integer id_tipoProducto = Integer.parseInt(oRequest.getParameter("id_tipoProducto"));
+            Integer iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
+            Integer iPage = Integer.parseInt(oRequest.getParameter("page"));
+            HashMap<String, String> hmOrder = ParameterCook.getOrderParams(oRequest.getParameter("order"));
+            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+            oConnection = oConnectionPool.newConnection();
+            ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
+            ArrayList<ProductoBean> alProductoBean = oProductoDao.getpageX(id_tipoProducto, iRpp, iPage, hmOrder, 1);
+            Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
+            oReplyBean = new ReplyBean(200, oGson.toJson(alProductoBean));
+        } catch (Exception ex) {
+            oReplyBean = new ReplyBean(500,
+                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+        } finally {
+            oConnectionPool.disposeConnection();
+        }
+        return oReplyBean;
     }
 
     public ReplyBean filldatabase() throws Exception {

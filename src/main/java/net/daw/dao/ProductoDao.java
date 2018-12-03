@@ -177,6 +177,65 @@ public class ProductoDao {
             throw new Exception("Error en Dao getpage de " + ob);
         }
         return alProductoBean;
-
     }
+    
+    public int getcountX(int id_tipoProducto) throws Exception {
+        String strSQL = "SELECT COUNT(id) FROM " + ob + " WHERE id_tipoProducto=?";
+        int res = 0;
+        ResultSet oResultSet = null;
+        PreparedStatement oPreparedStatement = null;
+        try {
+            oPreparedStatement = oConnection.prepareStatement(strSQL);
+            oPreparedStatement.setInt(1, id_tipoProducto);
+            oResultSet = oPreparedStatement.executeQuery();
+            if (oResultSet.next()) {
+                res = oResultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new Exception("Error en Dao get de " + ob, e);
+        } finally {
+            if (oResultSet != null) {
+                oResultSet.close();
+            }
+            if (oPreparedStatement != null) {
+                oPreparedStatement.close();
+            }
+        }
+        return res;
+    }
+    
+    public ArrayList<ProductoBean> getpageX(int id_tipoProducto, int iRpp, int iPage, HashMap<String, String> hmOrder, Integer expand) throws Exception {
+        String strSQL = "SELECT * FROM " + ob + " WHERE id_tipoProducto=?";
+        strSQL += SqlBuilder.buildSqlOrder(hmOrder);
+        ArrayList<ProductoBean> alProductoBean;
+        if (iRpp > 0 && iRpp < 100000 && iPage > 0 && iPage < 100000000) {
+            strSQL += " LIMIT " + (iPage - 1) * iRpp + ", " + iRpp;
+            ResultSet oResultSet = null;
+            PreparedStatement oPreparedStatement = null;
+            try {
+                oPreparedStatement = oConnection.prepareStatement(strSQL);
+                oPreparedStatement.setInt(1, id_tipoProducto);
+                oResultSet = oPreparedStatement.executeQuery();
+                alProductoBean = new ArrayList<ProductoBean>();
+                while (oResultSet.next()) {
+                    ProductoBean oProductoBean = new ProductoBean();
+                    oProductoBean.fill(oResultSet, oConnection, expand);
+                    alProductoBean.add(oProductoBean);
+                }
+            } catch (SQLException e) {
+                throw new Exception("Error en Dao getpage de " + ob, e);
+            } finally {
+                if (oResultSet != null) {
+                    oResultSet.close();
+                }
+                if (oPreparedStatement != null) {
+                    oPreparedStatement.close();
+                }
+            }
+        } else {
+            throw new Exception("Error en Dao getpage de " + ob);
+        }
+        return alProductoBean;
+    }
+    
 }

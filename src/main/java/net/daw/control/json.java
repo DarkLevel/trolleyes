@@ -47,8 +47,7 @@ public class json extends HttpServlet {
         processRequest(request, response);
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
         response.setHeader("Access-Control-Allow-Methods", "GET,POST");
