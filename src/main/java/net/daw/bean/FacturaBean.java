@@ -86,9 +86,8 @@ public class FacturaBean {
     
     public FacturaBean fill(ResultSet oResultSet, Connection oConnection, Integer expand) throws Exception {
         this.setId(oResultSet.getInt("id"));
-        Timestamp timestamp = oResultSet.getTimestamp("fecha");
-        Date date = new java.util.Date(timestamp.getTime());
-        this.setFecha(date);
+        Timestamp fechaHora = oResultSet.getTimestamp("fecha");
+        this.setFecha(fechaHora);
         this.setIva(oResultSet.getDouble("iva"));
         this.setLink_linea((new LineaDao(oConnection, "linea")).getcountX(oResultSet.getInt("id")));
         if (expand > 0) {
