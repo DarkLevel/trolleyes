@@ -3,23 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.daw.bean;
+package net.daw.bean.specificBeanImplementation;
 
 import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import net.daw.dao.FacturaDao;
-import net.daw.dao.TipousuarioDao;
+import net.daw.bean.genericBeanImplementation.GenericBeanImplementation;
+import net.daw.bean.publicBeanInterface.BeanInterface;
+import net.daw.dao.specificDaoImplementation.FacturaDao;
+import net.daw.dao.specificDaoImplementation.TipousuarioDao;
 import net.daw.helper.EncodingHelper;
 
 /**
  *
  * @author jesus
  */
-public class UsuarioBean {
+public class UsuarioBean extends GenericBeanImplementation implements BeanInterface {
 
-    @Expose
-    private int id;
     @Expose
     private String dni;
     @Expose
@@ -53,14 +53,6 @@ public class UsuarioBean {
 
     public void setObj_tipoUsuario(TipousuarioBean obj_tipoUsuario) {
         this.obj_tipoUsuario = obj_tipoUsuario;
-    }
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getDni() {
@@ -119,6 +111,7 @@ public class UsuarioBean {
         this.id_tipoUsuario = id_tipoUsuario;
     }
 
+    @Override
     public UsuarioBean fill(ResultSet oResultSet, Connection oConnection, Integer expand) throws Exception {
         this.setId(oResultSet.getInt("id"));
         this.setDni(oResultSet.getString("dni"));
@@ -130,13 +123,14 @@ public class UsuarioBean {
         this.setLink_factura((new FacturaDao(oConnection, "factura")).getcountX(oResultSet.getInt("id")));
         if (expand > 0) {
             TipousuarioDao otipousuarioDao = new TipousuarioDao(oConnection, "tipousuario");
-            this.setObj_tipoUsuario(otipousuarioDao.get(oResultSet.getInt("id_tipoUsuario"), expand - 1));
+            this.setObj_tipoUsuario((TipousuarioBean) otipousuarioDao.get(oResultSet.getInt("id_tipoUsuario"), expand - 1));
         } else {
             this.setId_tipoUsuario(oResultSet.getInt("id_tipoUsuario"));
         }
         return this;
     }
 
+    @Override
     public String getColumns() {
         String strColumns = "";
         strColumns += "usuario.id,";
@@ -150,6 +144,7 @@ public class UsuarioBean {
         return strColumns;
     }
 
+    @Override
     public String getValues() {
         String strColumns = "";
         strColumns += "null,";
@@ -163,6 +158,7 @@ public class UsuarioBean {
         return strColumns;
     }
 
+    @Override
     public String getPairs() {
         String strPairs = "";
         strPairs += "usuario.id=" + id + ",";
@@ -172,7 +168,7 @@ public class UsuarioBean {
         strPairs += "usuario.ape2=" + EncodingHelper.quotate(ape2) + ",";
         strPairs += "usuario.login=" + EncodingHelper.quotate(login) + ",";
         strPairs += "usuario.id_tipoUsuario=" + id_tipoUsuario;
-        strPairs += " WHERE id = " + id;
+        strPairs += " WHERE usuario.id = " + id;
         return strPairs;
     }
 

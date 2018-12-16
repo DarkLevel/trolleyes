@@ -1,6 +1,6 @@
 package net.daw.generadores;
 
-import net.daw.bean.LineaBean;
+import net.daw.bean.specificBeanImplementation.LineaBean;
 
 public class Generadorlineas {
     public LineaBean generar() throws Exception {

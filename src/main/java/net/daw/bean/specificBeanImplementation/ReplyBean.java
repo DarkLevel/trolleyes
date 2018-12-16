@@ -1,4 +1,4 @@
-package net.daw.bean;
+package net.daw.bean.specificBeanImplementation;
 
 public class ReplyBean {
 

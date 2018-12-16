@@ -3,7 +3,7 @@ package net.daw.generadores;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import net.daw.bean.FacturaBean;
+import net.daw.bean.specificBeanImplementation.FacturaBean;
 
 public class Generadorfacturas {
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");

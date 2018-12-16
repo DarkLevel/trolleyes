@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.daw.bean;
+package net.daw.bean.specificBeanImplementation;
 
 import com.google.gson.annotations.Expose;
 import java.sql.Connection;
@@ -13,18 +13,18 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import net.daw.dao.LineaDao;
-import net.daw.dao.UsuarioDao;
+import net.daw.bean.genericBeanImplementation.GenericBeanImplementation;
+import net.daw.bean.publicBeanInterface.BeanInterface;
+import net.daw.dao.specificDaoImplementation.LineaDao;
+import net.daw.dao.specificDaoImplementation.UsuarioDao;
 import net.daw.helper.EncodingHelper;
 
 /**
  *
  * @author a044531896d
  */
-public class FacturaBean {
+public class FacturaBean extends GenericBeanImplementation implements BeanInterface {
 
-    @Expose
-    private int id;
     @Expose
     private Date fecha;
     @Expose
@@ -52,14 +52,6 @@ public class FacturaBean {
         this.obj_usuario = obj_usuario;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Date getFecha() {
         return fecha;
     }
@@ -84,6 +76,7 @@ public class FacturaBean {
         this.id_usuario = id_usuario;
     }
     
+    @Override
     public FacturaBean fill(ResultSet oResultSet, Connection oConnection, Integer expand) throws Exception {
         this.setId(oResultSet.getInt("id"));
         Timestamp fechaHora = oResultSet.getTimestamp("fecha");
@@ -92,13 +85,14 @@ public class FacturaBean {
         this.setLink_linea((new LineaDao(oConnection, "linea")).getcountX(oResultSet.getInt("id")));
         if (expand > 0) {
             UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, "usuario");
-            this.setObj_usuario(oUsuarioDao.get(oResultSet.getInt("id_usuario"), expand - 1));
+            this.setObj_usuario((UsuarioBean) oUsuarioDao.get(oResultSet.getInt("id_usuario"), expand - 1));
         } else {
             this.setId_usuario(oResultSet.getInt("id_usuario"));
         }
         return this;
     }
     
+    @Override
     public String getColumns() {
         String strColumns = "";
         strColumns += "factura.id,";
@@ -108,6 +102,7 @@ public class FacturaBean {
         return strColumns;
     }
 
+    @Override
     public String getValues() {
         //Getting the default zone id
         ZoneId defaultZoneId = ZoneId.systemDefault();
@@ -126,6 +121,7 @@ public class FacturaBean {
         return strColumns;
     }
 
+    @Override
     public String getPairs() {
         //Getting the default zone id
         ZoneId defaultZoneId = ZoneId.systemDefault();
@@ -141,7 +137,7 @@ public class FacturaBean {
         strPairs += "factura.fecha=" + EncodingHelper.quotate(localDateTime.toString()) + ",";
         strPairs += "factura.iva=" + iva + ",";
         strPairs += "factura.id_usuario=" + id_usuario;
-        strPairs += " WHERE id = " + id;
+        strPairs += " WHERE factura.id = " + id;
         return strPairs;
     }
 

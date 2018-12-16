@@ -3,22 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.daw.bean;
+package net.daw.bean.specificBeanImplementation;
 
 import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import net.daw.dao.TipoproductoDao;
+import net.daw.bean.genericBeanImplementation.GenericBeanImplementation;
+import net.daw.bean.publicBeanInterface.BeanInterface;
+import net.daw.dao.specificDaoImplementation.TipoproductoDao;
 import net.daw.helper.EncodingHelper;
 
 /**
  *
  * @author a044531896d
  */
-public class ProductoBean {
+public class ProductoBean extends GenericBeanImplementation implements BeanInterface {
 
-    @Expose
-    private int id;
     @Expose
     private String codigo;
     @Expose
@@ -40,14 +40,6 @@ public class ProductoBean {
 
     public void setObj_tipoProducto(TipoproductoBean obj_tipoProducto) {
         this.obj_tipoProducto = obj_tipoProducto;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getCodigo() {
@@ -98,6 +90,7 @@ public class ProductoBean {
         this.id_tipoProducto = id_tipoProducto;
     }
 
+    @Override
     public ProductoBean fill(ResultSet oResultSet, Connection oConnection, Integer expand) throws Exception {
         this.setId(oResultSet.getInt("id"));
         this.setCodigo(oResultSet.getString("codigo"));
@@ -107,13 +100,14 @@ public class ProductoBean {
         this.setFoto(oResultSet.getString("foto"));
         if (expand > 0) {
             TipoproductoDao oTipoproductoDao = new TipoproductoDao(oConnection, "tipoproducto");
-            this.setObj_tipoProducto(oTipoproductoDao.get(oResultSet.getInt("id_tipoProducto"), expand - 1));
+            this.setObj_tipoProducto((TipoproductoBean) oTipoproductoDao.get(oResultSet.getInt("id_tipoProducto"), expand - 1));
         } else{
             this.setId_tipoProducto(oResultSet.getInt("id_tipoProducto"));
         }
         return this;
     }
     
+    @Override
     public String getColumns() {
         String strColumns = "";
         strColumns += "producto.id,";
@@ -126,6 +120,7 @@ public class ProductoBean {
         return strColumns;
     }
 
+    @Override
     public String getValues() {
         String strColumns = "";
         strColumns += "null,";
@@ -138,6 +133,7 @@ public class ProductoBean {
         return strColumns;
     }
 
+    @Override
     public String getPairs() {
         String strPairs = "";
         strPairs += "producto.id=" + id + ",";
@@ -147,7 +143,7 @@ public class ProductoBean {
         strPairs += "producto.precio=" + precio + ",";
         strPairs += "producto.foto=" + EncodingHelper.quotate(foto) + ",";
         strPairs += "producto.id_tipoProducto=" + id_tipoProducto;
-        strPairs += " WHERE id = " + id;
+        strPairs += " WHERE producto.id = " + id;
         return strPairs;
     }
 

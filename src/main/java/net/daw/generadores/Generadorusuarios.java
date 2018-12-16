@@ -1,6 +1,6 @@
 package net.daw.generadores;
 
-import net.daw.bean.UsuarioBean;
+import net.daw.bean.specificBeanImplementation.UsuarioBean;
 
 public class Generadorusuarios {
     public UsuarioBean generar() throws Exception {

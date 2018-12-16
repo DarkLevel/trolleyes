@@ -1,7 +1,6 @@
-package net.daw.service;
+package net.daw.service.specificServiceImplementation;
 
 import com.google.gson.Gson;
-import java.io.Serializable;
 import java.sql.Connection;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -9,32 +8,26 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
-import net.daw.bean.CarritoBean;
-import net.daw.bean.FacturaBean;
-import net.daw.bean.LineaBean;
-import net.daw.bean.ProductoBean;
-import net.daw.bean.ReplyBean;
-import net.daw.bean.UsuarioBean;
+import net.daw.bean.specificBeanImplementation.CarritoBean;
+import net.daw.bean.specificBeanImplementation.FacturaBean;
+import net.daw.bean.specificBeanImplementation.LineaBean;
+import net.daw.bean.specificBeanImplementation.ProductoBean;
+import net.daw.bean.specificBeanImplementation.ReplyBean;
+import net.daw.bean.specificBeanImplementation.UsuarioBean;
 import net.daw.connection.publicinterface.ConnectionInterface;
 import net.daw.constant.ConnectionConstants;
-import net.daw.dao.FacturaDao;
-import net.daw.dao.LineaDao;
-import net.daw.dao.ProductoDao;
+import net.daw.dao.specificDaoImplementation.FacturaDao;
+import net.daw.dao.specificDaoImplementation.LineaDao;
+import net.daw.dao.specificDaoImplementation.ProductoDao;
 import net.daw.factory.ConnectionFactory;
 import net.daw.helper.ValidateData;
+import net.daw.service.genericServiceImplementation.GenericServiceImplementation;
+import net.daw.service.publicServiceInterface.ServiceInterface;
 
-/**
- *
- * @author a073597589g
- */
-public class CarritoService implements Serializable {
-
-    HttpServletRequest oRequest;
-    String ob = null;
+public class CarritoService extends GenericServiceImplementation implements ServiceInterface {
 
     public CarritoService(HttpServletRequest oRequest) {
-        super();
-        this.oRequest = oRequest;
+        super(oRequest);
         ob = oRequest.getParameter("ob");
     }
 
@@ -60,7 +53,7 @@ public class CarritoService implements Serializable {
                         Integer cantidad = Integer.parseInt(strCantidad);
                         ArrayList<CarritoBean> alCarrito = (ArrayList<CarritoBean>) oRequest.getSession().getAttribute("carrito");
                         ProductoDao oProductoDao = new ProductoDao(oConnection, "producto");
-                        ProductoBean oProductoBean = oProductoDao.get(id_producto, 1);
+                        ProductoBean oProductoBean = (ProductoBean) oProductoDao.get(id_producto, 1);
                         if (oProductoBean != null) {
                             if (alCarrito != null) {
                                 Boolean exists = false;
@@ -74,7 +67,7 @@ public class CarritoService implements Serializable {
                                 if (!exists) {
                                     CarritoBean oCarritoBean = new CarritoBean();
                                     oProductoDao = new ProductoDao(oConnection, "producto");
-                                    oProductoBean = oProductoDao.get(id_producto, 1);
+                                    oProductoBean = (ProductoBean) oProductoDao.get(id_producto, 1);
                                     oCarritoBean.setCantidad(cantidad);
                                     oCarritoBean.setObj_producto(oProductoBean);
                                     alCarrito.add(oCarritoBean);
@@ -84,7 +77,7 @@ public class CarritoService implements Serializable {
                                 ArrayList<CarritoBean> newAlCarrito = new ArrayList<>();
                                 CarritoBean oCarritoBean = new CarritoBean();
                                 oProductoDao = new ProductoDao(oConnection, "producto");
-                                oProductoBean = oProductoDao.get(id_producto, 1);
+                                oProductoBean = (ProductoBean) oProductoDao.get(id_producto, 1);
                                 oCarritoBean.setCantidad(cantidad);
                                 oCarritoBean.setObj_producto(oProductoBean);
                                 newAlCarrito.add(oCarritoBean);
@@ -251,7 +244,7 @@ public class CarritoService implements Serializable {
                     oFacturaBean.setFecha(fecha);
                     oFacturaBean.setIva(21);
                     oFacturaBean.setId_usuario(oUsuarioBean.getId());
-                    oFacturaBean = oFacturaDao.create(oFacturaBean);
+                    oFacturaBean = (FacturaBean) oFacturaDao.create(oFacturaBean);
                     //Crear Lineas (preguntar sobre id_tipoProducto en productoBean)
                     LineaBean oLineaBean = new LineaBean();
                     LineaDao oLineaDao = new LineaDao(oConnection, "linea");
@@ -263,7 +256,7 @@ public class CarritoService implements Serializable {
                         oLineaBean.setId_factura(oFacturaBean.getId());
                         if (o.getCantidad() <= o.getObj_producto().getExistencias()) {
                             oLineaBean.setCantidad(o.getCantidad());
-                            oProductoBean = oProductoDao.get(o.getObj_producto().getId(), 0);
+                            oProductoBean = (ProductoBean) oProductoDao.get(o.getObj_producto().getId(), 0);
                             oProductoBean.setExistencias(oProductoBean.getExistencias() - o.getCantidad());
                             oProductoDao.update(oProductoBean);
                             oLineaBean.setId_producto(o.getObj_producto().getId());

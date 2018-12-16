@@ -1,4 +1,9 @@
-package net.daw.dao;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package net.daw.dao.genericDaoImplementation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,23 +11,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import net.daw.bean.TipoproductoBean;
+import net.daw.bean.publicBeanInterface.BeanInterface;
+import net.daw.dao.publicDaoInterface.DaoInterface;
+import net.daw.factory.BeanFactory;
 import net.daw.helper.SqlBuilder;
 
-public class TipoproductoDao {
+/**
+ *
+ * @author jesus
+ */
+public class GenericDaoImplementation implements DaoInterface {
 
-    Connection oConnection;
-    String ob = null;
+    protected Connection oConnection;
+    protected String ob = null;
 
-    public TipoproductoDao(Connection oConnection, String ob) {
+    public GenericDaoImplementation(Connection oConnection, String ob) {
         super();
         this.oConnection = oConnection;
         this.ob = ob;
     }
 
-    public TipoproductoBean get(int id, Integer expand) throws Exception {
+    @Override
+    public BeanInterface get(int id, Integer expand) throws Exception {
         String strSQL = "SELECT * FROM " + ob + " WHERE id=?";
-        TipoproductoBean oTipoproductoBean;
+        BeanInterface oBean;
         ResultSet oResultSet = null;
         PreparedStatement oPreparedStatement = null;
         try {
@@ -30,10 +42,10 @@ public class TipoproductoDao {
             oPreparedStatement.setInt(1, id);
             oResultSet = oPreparedStatement.executeQuery();
             if (oResultSet.next()) {
-                oTipoproductoBean = new TipoproductoBean();
-                oTipoproductoBean.fill(oResultSet, oConnection, expand);
+                oBean = BeanFactory.getBean(ob);
+                oBean.fill(oResultSet, oConnection, expand);
             } else {
-                oTipoproductoBean = null;
+                oBean = null;
             }
         } catch (SQLException e) {
             throw new Exception("Error en Dao get de " + ob, e);
@@ -45,9 +57,10 @@ public class TipoproductoDao {
                 oPreparedStatement.close();
             }
         }
-        return oTipoproductoBean;
+        return oBean;
     }
 
+    @Override
     public int remove(int id) throws Exception {
         int iRes = 0;
         String strSQL = "DELETE FROM " + ob + " WHERE id=?";
@@ -66,6 +79,7 @@ public class TipoproductoDao {
         return iRes;
     }
 
+    @Override
     public int getcount() throws Exception {
         String strSQL = "SELECT COUNT(id) FROM " + ob;
         int res = 0;
@@ -90,11 +104,12 @@ public class TipoproductoDao {
         return res;
     }
 
-    public TipoproductoBean create(TipoproductoBean oTipoproductoBean) throws Exception {
+    @Override
+    public BeanInterface create(BeanInterface oBean) throws Exception {
         String strSQL = "INSERT INTO " + ob;
-        strSQL += "(" + oTipoproductoBean.getColumns() + ")";
+        strSQL += "(" + oBean.getColumns() + ")";
         strSQL += " VALUES ";
-        strSQL += "(" + oTipoproductoBean.getValues() + ")";
+        strSQL += "(" + oBean.getValues() + ")";
         ResultSet oResultSet = null;
         PreparedStatement oPreparedStatement = null;
         try {
@@ -102,9 +117,9 @@ public class TipoproductoDao {
             oPreparedStatement.executeUpdate();
             oResultSet = oPreparedStatement.getGeneratedKeys();
             if (oResultSet.next()) {
-                oTipoproductoBean.setId(oResultSet.getInt(1));
+                oBean.setId(oResultSet.getInt(1));
             } else {
-                oTipoproductoBean.setId(0);
+                oBean.setId(0);
             }
         } catch (SQLException e) {
             throw new Exception("Error en Dao create de " + ob, e);
@@ -116,17 +131,19 @@ public class TipoproductoDao {
                 oPreparedStatement.close();
             }
         }
-        return oTipoproductoBean;
+        return oBean;
     }
 
-    public int update(TipoproductoBean oTipoproductoBean) throws Exception {
+    @Override
+    public int update(BeanInterface oBean) throws Exception {
         int iResult = 0;
         String strSQL = "UPDATE " + ob + " SET ";
-        strSQL += oTipoproductoBean.getPairs();
+        strSQL += oBean.getPairs();
         PreparedStatement oPreparedStatement = null;
         try {
             oPreparedStatement = oConnection.prepareStatement(strSQL);
             iResult = oPreparedStatement.executeUpdate();
+
         } catch (SQLException e) {
             throw new Exception("Error en Dao update de " + ob, e);
         } finally {
@@ -137,10 +154,11 @@ public class TipoproductoDao {
         return iResult;
     }
 
-    public ArrayList<TipoproductoBean> getpage(int iRpp, int iPage, HashMap<String, String> hmOrder, Integer expand) throws Exception {
+    @Override
+    public ArrayList<BeanInterface> getpage(int iRpp, int iPage, HashMap<String, String> hmOrder, Integer expand) throws Exception {
         String strSQL = "SELECT * FROM " + ob;
         strSQL += SqlBuilder.buildSqlOrder(hmOrder);
-        ArrayList<TipoproductoBean> alTipoproductoBean;
+        ArrayList<BeanInterface> alBean;
         if (iRpp > 0 && iRpp < 100000 && iPage > 0 && iPage < 100000000) {
             strSQL += " LIMIT " + (iPage - 1) * iRpp + ", " + iRpp;
             ResultSet oResultSet = null;
@@ -148,11 +166,11 @@ public class TipoproductoDao {
             try {
                 oPreparedStatement = oConnection.prepareStatement(strSQL);
                 oResultSet = oPreparedStatement.executeQuery();
-                alTipoproductoBean = new ArrayList<TipoproductoBean>();
+                alBean = new ArrayList<BeanInterface>();
                 while (oResultSet.next()) {
-                    TipoproductoBean oTipoproductoBean = new TipoproductoBean();
-                    oTipoproductoBean.fill(oResultSet, oConnection, expand);
-                    alTipoproductoBean.add(oTipoproductoBean);
+                    BeanInterface oBean = BeanFactory.getBean(ob);
+                    oBean.fill(oResultSet, oConnection, expand);
+                    alBean.add(oBean);
                 }
             } catch (SQLException e) {
                 throw new Exception("Error en Dao getpage de " + ob, e);
@@ -167,7 +185,8 @@ public class TipoproductoDao {
         } else {
             throw new Exception("Error en Dao getpage de " + ob);
         }
-        return alTipoproductoBean;
+        return alBean;
 
     }
+
 }

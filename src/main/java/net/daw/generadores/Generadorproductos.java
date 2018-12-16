@@ -1,6 +1,6 @@
 package net.daw.generadores;
 
-import net.daw.bean.ProductoBean;
+import net.daw.bean.specificBeanImplementation.ProductoBean;
 
 public class Generadorproductos {
     public ProductoBean generar() throws Exception {

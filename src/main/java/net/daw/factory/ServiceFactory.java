@@ -2,14 +2,14 @@ package net.daw.factory;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.daw.bean.ReplyBean;
-import net.daw.service.CarritoService;
-import net.daw.service.FacturaService;
-import net.daw.service.LineaService;
-import net.daw.service.ProductoService;
-import net.daw.service.TipoproductoService;
-import net.daw.service.TipousuarioService;
-import net.daw.service.UsuarioService;
+import net.daw.bean.specificBeanImplementation.ReplyBean;
+import net.daw.service.specificServiceImplementation.CarritoService;
+import net.daw.service.specificServiceImplementation.FacturaService;
+import net.daw.service.specificServiceImplementation.LineaService;
+import net.daw.service.specificServiceImplementation.ProductoService;
+import net.daw.service.specificServiceImplementation.TipoproductoService;
+import net.daw.service.specificServiceImplementation.TipousuarioService;
+import net.daw.service.specificServiceImplementation.UsuarioService;
 
 public class ServiceFactory {
 
@@ -183,9 +183,6 @@ public class ServiceFactory {
                         break;
                     case "getpageX":
                         oReplyBean = oProductoService.getpageX();
-                        break;
-                    case "filtrartipo":
-                        oReplyBean = oProductoService.filtrartipo();
                         break;
                     case "filldatabase":
                         oReplyBean = oProductoService.filldatabase();

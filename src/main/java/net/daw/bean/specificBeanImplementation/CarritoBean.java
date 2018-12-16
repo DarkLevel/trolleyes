@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.daw.bean;
+package net.daw.bean.specificBeanImplementation;
 
 import com.google.gson.annotations.Expose;
+import net.daw.bean.genericBeanImplementation.GenericBeanImplementation;
+import net.daw.bean.publicBeanInterface.BeanInterface;
 
 /**
  *
  * @author a073597589g
  */
-public class CarritoBean {
+public class CarritoBean extends GenericBeanImplementation implements BeanInterface {
     
     @Expose
     private int cantidad;

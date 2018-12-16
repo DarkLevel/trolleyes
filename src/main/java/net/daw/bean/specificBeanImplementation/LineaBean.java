@@ -3,22 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.daw.bean;
+package net.daw.bean.specificBeanImplementation;
 
 import com.google.gson.annotations.Expose;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import net.daw.dao.FacturaDao;
-import net.daw.dao.ProductoDao;
+import net.daw.bean.genericBeanImplementation.GenericBeanImplementation;
+import net.daw.bean.publicBeanInterface.BeanInterface;
+import net.daw.dao.specificDaoImplementation.FacturaDao;
+import net.daw.dao.specificDaoImplementation.ProductoDao;
 
 /**
  *
  * @author a044531896d
  */
-public class LineaBean {
+public class LineaBean extends GenericBeanImplementation implements BeanInterface {
     
-    @Expose
-    private int id;
     @Expose
     private int cantidad;
     @Expose(serialize = false)
@@ -45,14 +45,6 @@ public class LineaBean {
     public void setObj_factura(FacturaBean obj_factura) {
         this.obj_factura = obj_factura;
     }
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getCantidad() {
         return cantidad;
@@ -78,14 +70,15 @@ public class LineaBean {
         this.id_factura = id_factura;
     }
     
+    @Override
     public LineaBean fill(ResultSet oResultSet, Connection oConnection, Integer expand) throws Exception {
         this.setId(oResultSet.getInt("id"));
         this.setCantidad(oResultSet.getInt("cantidad"));
         if (expand > 0) {
             ProductoDao oProductoDao = new ProductoDao(oConnection, "producto");
-            this.setObj_producto(oProductoDao.get(oResultSet.getInt("id_producto"), expand - 1));
+            this.setObj_producto((ProductoBean) oProductoDao.get(oResultSet.getInt("id_producto"), expand - 1));
             FacturaDao oFacturaDao = new FacturaDao(oConnection, "factura");
-            this.setObj_factura(oFacturaDao.get(oResultSet.getInt("id_factura"), expand - 1));
+            this.setObj_factura((FacturaBean) oFacturaDao.get(oResultSet.getInt("id_factura"), expand - 1));
         } else {
             this.setId_producto(oResultSet.getInt("id_producto"));
             this.setId_factura(oResultSet.getInt("id_factura"));
@@ -93,6 +86,7 @@ public class LineaBean {
         return this;
     }
 
+    @Override
     public String getColumns() {
         String strColumns = "";
         strColumns += "linea.id,";
@@ -102,6 +96,7 @@ public class LineaBean {
         return strColumns;
     }
 
+    @Override
     public String getValues() {
         String strColumns = "";
         strColumns += "null,";
@@ -111,13 +106,14 @@ public class LineaBean {
         return strColumns;
     }
 
+    @Override
     public String getPairs() {
         String strPairs = "";
         strPairs += "linea.id=" + id + ",";
         strPairs += "linea.cantidad=" + cantidad + ",";
         strPairs += "linea.id_producto=" + id_producto + ",";
         strPairs += "linea.id_factura=" + id_factura;
-        strPairs += " WHERE id = " + id;
+        strPairs += " WHERE linea.id = " + id;
         return strPairs;
     }
     
