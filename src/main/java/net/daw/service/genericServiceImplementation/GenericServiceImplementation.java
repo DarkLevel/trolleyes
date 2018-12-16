@@ -122,7 +122,6 @@ public class GenericServiceImplementation implements ServiceInterface {
 
     @Override
     public ReplyBean update() throws Exception {
-        int iRes;
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;
@@ -133,7 +132,7 @@ public class GenericServiceImplementation implements ServiceInterface {
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
             DaoInterface oDao = DaoFactory.getDao(oConnection, ob);
-            iRes = oDao.update(oBean);
+            int iRes = oDao.update(oBean);
             oReplyBean = new ReplyBean(200, Integer.toString(iRes));
         } catch (Exception ex) {
             throw new Exception("ERROR: Service level: update method: " + ob + " object", ex);

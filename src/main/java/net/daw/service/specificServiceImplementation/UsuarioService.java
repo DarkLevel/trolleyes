@@ -101,4 +101,42 @@ public class UsuarioService extends GenericServiceImplementation implements Serv
         return oReplyBean;
     }
 
+    public ReplyBean changepass() throws Exception {
+        ReplyBean oReplyBean = null;
+        ConnectionInterface oConnectionPool = null;
+        Connection oConnection;
+        try {
+            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
+            oConnection = oConnectionPool.newConnection();
+            UsuarioBean oLoggedUsuarioBean = (UsuarioBean) oRequest.getSession().getAttribute("user");
+            if (oLoggedUsuarioBean != null) {
+                String actualPass = oLoggedUsuarioBean.getPass();
+                String oldPass = oRequest.getParameter("oldpass");
+                if (actualPass.equals(oldPass)) {
+                    String newPass = oRequest.getParameter("newpass");
+                    if (newPass.length() == 64) {
+                        UsuarioBean oUsuarioBean = new UsuarioBean();
+                        oUsuarioBean.setId(oLoggedUsuarioBean.getId());
+                        oUsuarioBean.setPass(newPass);
+                        UsuarioDao oUsuarioDao = new UsuarioDao(oConnection, ob);
+                        int iRes = oUsuarioDao.updatepass(oUsuarioBean);
+                        oReplyBean = new ReplyBean(200, Integer.toString(iRes));
+                    } else {
+                        oReplyBean = new ReplyBean(400, "Unencrypted password");
+                    }
+                } else {
+                    oReplyBean = new ReplyBean(401, "Bad Authentication");
+                }
+            } else {
+                oReplyBean = new ReplyBean(401, "Unauthorized");
+            }
+        } catch (Exception ex) {
+            oReplyBean = new ReplyBean(500,
+                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
+        } finally {
+            oConnectionPool.disposeConnection();
+        }
+        return oReplyBean;
+    }
+
 }

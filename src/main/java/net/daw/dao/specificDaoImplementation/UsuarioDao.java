@@ -43,5 +43,17 @@ public class UsuarioDao extends GenericDaoImplementation implements DaoInterface
         }
         return oUsuarioBean;
     }
+    
+    public int updatepass(UsuarioBean oUsuarioBean) throws Exception {
+        int iResult = 0;
+        String strSQL = "UPDATE " + ob + " SET ";
+        strSQL += oUsuarioBean.getPairsPass();
+        try (PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL)) {
+            iResult = oPreparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new Exception("Error en Dao update de " + ob, e);
+        }
+        return iResult;
+    }
 
 }

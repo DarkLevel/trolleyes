@@ -171,5 +171,12 @@ public class UsuarioBean extends GenericBeanImplementation implements BeanInterf
         strPairs += " WHERE usuario.id = " + id;
         return strPairs;
     }
+    
+    public String getPairsPass() {
+        String strPairs = "";
+        strPairs += "usuario.pass=" + EncodingHelper.quotate(pass);
+        strPairs += " WHERE usuario.id = " + id;
+        return strPairs;
+    }
 
 }
