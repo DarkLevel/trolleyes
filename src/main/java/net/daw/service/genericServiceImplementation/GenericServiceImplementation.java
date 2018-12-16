@@ -122,7 +122,7 @@ public class GenericServiceImplementation implements ServiceInterface {
 
     @Override
     public ReplyBean update() throws Exception {
-        int iRes = 0;
+        int iRes;
         ReplyBean oReplyBean;
         ConnectionInterface oConnectionPool = null;
         Connection oConnection;

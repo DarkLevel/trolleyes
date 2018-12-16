@@ -64,17 +64,11 @@ public class GenericDaoImplementation implements DaoInterface {
     public int remove(int id) throws Exception {
         int iRes = 0;
         String strSQL = "DELETE FROM " + ob + " WHERE id=?";
-        PreparedStatement oPreparedStatement = null;
-        try {
-            oPreparedStatement = oConnection.prepareStatement(strSQL);
+        try (PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL)) {
             oPreparedStatement.setInt(1, id);
             iRes = oPreparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new Exception("Error en Dao remove de " + ob, e);
-        } finally {
-            if (oPreparedStatement != null) {
-                oPreparedStatement.close();
-            }
         }
         return iRes;
     }
@@ -139,17 +133,10 @@ public class GenericDaoImplementation implements DaoInterface {
         int iResult = 0;
         String strSQL = "UPDATE " + ob + " SET ";
         strSQL += oBean.getPairs();
-        PreparedStatement oPreparedStatement = null;
-        try {
-            oPreparedStatement = oConnection.prepareStatement(strSQL);
+        try (PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL)) {
             iResult = oPreparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             throw new Exception("Error en Dao update de " + ob, e);
-        } finally {
-            if (oPreparedStatement != null) {
-                oPreparedStatement.close();
-            }
         }
         return iResult;
     }
@@ -166,7 +153,7 @@ public class GenericDaoImplementation implements DaoInterface {
             try {
                 oPreparedStatement = oConnection.prepareStatement(strSQL);
                 oResultSet = oPreparedStatement.executeQuery();
-                alBean = new ArrayList<BeanInterface>();
+                alBean = new ArrayList<>();
                 while (oResultSet.next()) {
                     BeanInterface oBean = BeanFactory.getBean(ob);
                     oBean.fill(oResultSet, oConnection, expand);
