@@ -1,4 +1,3 @@
-
 package net.daw.factory;
 
 import java.sql.Connection;
@@ -10,10 +9,6 @@ import net.daw.dao.specificDaoImplementation.TipoproductoDao;
 import net.daw.dao.specificDaoImplementation.TipousuarioDao;
 import net.daw.dao.specificDaoImplementation.UsuarioDao;
 
-/**
- *
- * @author a044531896d
- */
 public class DaoFactory {
 
     public static DaoInterface getDao(Connection oConnection, String ob) {
