@@ -1,10 +1,10 @@
 package net.daw.service.specificServiceImplementation;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import java.io.File;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import net.daw.bean.specificBeanImplementation.ReplyBean;
 import net.daw.bean.specificBeanImplementation.ProductoBean;
@@ -14,65 +14,17 @@ import net.daw.dao.specificDaoImplementation.ProductoDao;
 import net.daw.factory.ConnectionFactory;
 import net.daw.generadores.Generadorproductos;
 import net.daw.helper.EncodingHelper;
-import net.daw.helper.ParameterCook;
 import net.daw.service.genericServiceImplementation.GenericServiceImplementation;
 import net.daw.service.publicServiceInterface.ServiceInterface;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class ProductoService extends GenericServiceImplementation implements ServiceInterface {
 
     public ProductoService(HttpServletRequest oRequest) {
         super(oRequest);
         ob = oRequest.getParameter("ob");
-    }
-
-    public ReplyBean getcountX() throws Exception {
-        ReplyBean oReplyBean;
-        ConnectionInterface oConnectionPool = null;
-        Connection oConnection;
-        try {
-            Integer id_tipoProducto = Integer.parseInt(oRequest.getParameter("id_tipoProducto"));
-            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
-            oConnection = oConnectionPool.newConnection();
-            ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
-            int registros = oProductoDao.getcountX(id_tipoProducto);
-            Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
-            oReplyBean = new ReplyBean(200, oGson.toJson(registros));
-        } catch (Exception ex) {
-            oReplyBean = new ReplyBean(500,
-                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
-        } finally {
-            oConnectionPool.disposeConnection();
-        }
-        return oReplyBean;
-    }
-
-    public ReplyBean getpageX() throws Exception {
-        ReplyBean oReplyBean;
-        ConnectionInterface oConnectionPool = null;
-        Connection oConnection;
-        try {
-            Integer id_tipoProducto;
-            if (oRequest.getParameter("id_tipoProducto") != null) {
-                id_tipoProducto = Integer.parseInt(oRequest.getParameter("id_tipoProducto"));
-            } else{
-                id_tipoProducto = 0;
-            }
-            Integer iRpp = Integer.parseInt(oRequest.getParameter("rpp"));
-            Integer iPage = Integer.parseInt(oRequest.getParameter("page"));
-            HashMap<String, String> hmOrder = ParameterCook.getOrderParams(oRequest.getParameter("order"));
-            oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
-            oConnection = oConnectionPool.newConnection();
-            ProductoDao oProductoDao = new ProductoDao(oConnection, ob);
-            ArrayList<ProductoBean> alProductoBean = oProductoDao.getpageX(id_tipoProducto, iRpp, iPage, hmOrder, 1);
-            Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
-            oReplyBean = new ReplyBean(200, oGson.toJson(alProductoBean));
-        } catch (Exception ex) {
-            oReplyBean = new ReplyBean(500,
-                    "ERROR: " + EncodingHelper.escapeQuotes(EncodingHelper.escapeLine(ex.getMessage())));
-        } finally {
-            oConnectionPool.disposeConnection();
-        }
-        return oReplyBean;
     }
 
     public ReplyBean filldatabase() throws Exception {
@@ -100,4 +52,27 @@ public class ProductoService extends GenericServiceImplementation implements Ser
         }
         return oReplyBean;
     }
+
+    public ReplyBean addImage() throws Exception {
+        String name = "";
+        HashMap<String, String> hash = new HashMap<>();
+        if (ServletFileUpload.isMultipartContent(oRequest)) {
+            try {
+                List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(oRequest);
+                for (FileItem item : multiparts) {
+                    if (!item.isFormField()) {
+                        name = new File(item.getName()).getName();
+                        item.write(new File(".//..//webapps//ROOT//images_server//" + name));
+                    } else {
+                        hash.put(item.getFieldName(), item.getString());
+                    }
+                }
+            } catch (Exception ex) {
+                throw new Exception(ex);
+            }
+        }
+        Gson oGson = new Gson();
+        return new ReplyBean(200, oGson.toJson("Correcto"));
+    }
+
 }
