@@ -53,16 +53,15 @@ public class ProductoService extends GenericServiceImplementation implements Ser
         return oReplyBean;
     }
 
-    public ReplyBean addImage() throws Exception {
-        String name = "";
+    public ReplyBean addimage() throws Exception {
         HashMap<String, String> hash = new HashMap<>();
         if (ServletFileUpload.isMultipartContent(oRequest)) {
             try {
                 List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(oRequest);
                 for (FileItem item : multiparts) {
                     if (!item.isFormField()) {
-                        name = new File(item.getName()).getName();
-                        item.write(new File(".//..//webapps//ROOT//images_server//" + name));
+                        String name = new File(item.getName()).getName();
+                        item.write(new File(".//..//webapps//ROOT//imagenes//" + name));
                     } else {
                         hash.put(item.getFieldName(), item.getString());
                     }

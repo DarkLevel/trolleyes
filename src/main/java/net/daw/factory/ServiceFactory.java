@@ -204,6 +204,9 @@ public class ServiceFactory {
                             case "getpage":
                                 oReplyBean = oProductoService.getpage();
                                 break;
+                            case "addimage":
+                                oReplyBean = oProductoService.addimage();
+                                break;
                             case "filldatabase":
                                 oReplyBean = oProductoService.filldatabase();
                                 break;
