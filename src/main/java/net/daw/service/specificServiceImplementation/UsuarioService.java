@@ -195,6 +195,7 @@ public class UsuarioService extends GenericServiceImplementation implements Serv
             Gson oGson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().create();
             UsuarioBean oBean = (UsuarioBean) BeanFactory.getBeanFromJson(ob, oGson, strJsonFromClient);
             oBean.setId(oLoggedUser.getId());
+            oBean.setPass(null);
             oBean.setId_tipoUsuario(oLoggedUser.getObj_tipoUsuario().getId());
             oConnectionPool = ConnectionFactory.getConnection(ConnectionConstants.connectionPool);
             oConnection = oConnectionPool.newConnection();
