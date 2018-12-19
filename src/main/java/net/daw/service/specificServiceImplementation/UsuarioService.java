@@ -6,7 +6,6 @@ import java.sql.Connection;
 import javax.servlet.http.HttpServletRequest;
 import net.daw.bean.publicBeanInterface.BeanInterface;
 import net.daw.bean.specificBeanImplementation.ReplyBean;
-import net.daw.bean.specificBeanImplementation.TipousuarioBean;
 import net.daw.bean.specificBeanImplementation.UsuarioBean;
 import net.daw.connection.publicinterface.ConnectionInterface;
 import net.daw.constant.ConnectionConstants;

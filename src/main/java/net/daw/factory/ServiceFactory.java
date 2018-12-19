@@ -128,6 +128,12 @@ public class ServiceFactory {
                             case "getpageX":
                                 oReplyBean = oFacturaService.getpageX();
                                 break;
+                            case "getcountfacturasuser":
+                                oReplyBean = oFacturaService.getcountfacturasuser();
+                                break;
+                            case "getpagefacturasuser":
+                                oReplyBean = oFacturaService.getpagefacturasuser();
+                                break;
                             case "filldatabase":
                                 oReplyBean = oFacturaService.filldatabase();
                                 break;
@@ -162,6 +168,12 @@ public class ServiceFactory {
                                 break;
                             case "getpageX":
                                 oReplyBean = oLineaService.getpageX();
+                                break;
+                            case "getcountlineauser":
+                                oReplyBean = oLineaService.getcountlineauser();
+                                break;
+                            case "getpagelineauser":
+                                oReplyBean = oLineaService.getpagelineauser();
                                 break;
                             case "filldatabase":
                                 oReplyBean = oLineaService.filldatabase();
@@ -279,6 +291,34 @@ public class ServiceFactory {
                                 break;
                             case "changepass":
                                 oReplyBean = oUsuarioService.changepass();
+                                break;
+                            default:
+                                oReplyBean = new ReplyBean(500, "Operation doesn't exist");
+                                break;
+                        }
+                        break;
+                    case "factura":
+                        FacturaService oFacturaService = new FacturaService(oRequest);
+                        switch (op) {
+                            case "getcountfacturasuser":
+                                oReplyBean = oFacturaService.getcountfacturasuser();
+                                break;
+                            case "getpagefacturasuser":
+                                oReplyBean = oFacturaService.getpagefacturasuser();
+                                break;
+                            default:
+                                oReplyBean = new ReplyBean(500, "Operation doesn't exist");
+                                break;
+                        }
+                        break;
+                    case "linea":
+                        LineaService oLineaService = new LineaService(oRequest);
+                        switch (op) {
+                            case "getcountlineauser":
+                                oReplyBean = oLineaService.getcountlineauser();
+                                break;
+                            case "getpagelineauser":
+                                oReplyBean = oLineaService.getpagelineauser();
                                 break;
                             default:
                                 oReplyBean = new ReplyBean(500, "Operation doesn't exist");
