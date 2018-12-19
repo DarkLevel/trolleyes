@@ -63,11 +63,17 @@ public class ServiceFactory {
                             case "get":
                                 oReplyBean = oUsuarioService.get();
                                 break;
+                            case "getprofile":
+                                oReplyBean = oUsuarioService.getprofile();
+                                break;
                             case "create":
                                 oReplyBean = oUsuarioService.create();
                                 break;
                             case "update":
                                 oReplyBean = oUsuarioService.update();
+                                break;
+                            case "updateprofile":
+                                oReplyBean = oUsuarioService.updateprofile();
                                 break;
                             case "remove":
                                 oReplyBean = oUsuarioService.remove();
@@ -259,11 +265,11 @@ public class ServiceFactory {
                     case "usuario":
                         UsuarioService oUsuarioService = new UsuarioService(oRequest);
                         switch (op) {
-                            case "get":
-                                oReplyBean = oUsuarioService.get();
+                            case "getprofile":
+                                oReplyBean = oUsuarioService.getprofile();
                                 break;
-                            case "update":
-                                oReplyBean = oUsuarioService.update();
+                            case "updateprofile":
+                                oReplyBean = oUsuarioService.updateprofile();
                                 break;
                             case "logout":
                                 oReplyBean = oUsuarioService.logout();
@@ -332,8 +338,8 @@ public class ServiceFactory {
                     case "usuario":
                         UsuarioService oUsuarioService = new UsuarioService(oRequest);
                         switch (op) {
-                            case "create":
-                                oReplyBean = oUsuarioService.create();
+                            case "createuser":
+                                oReplyBean = oUsuarioService.createuser();
                                 break;
                             case "login":
                                 oReplyBean = oUsuarioService.login();
